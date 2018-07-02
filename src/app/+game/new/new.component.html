@@ -1,5 +1,5 @@
 <div class="selection left">
-  <h2>Select Player 1</h2>
+  <h2>Spieler 1</h2>
   <div class="player" [class.selected]="isSelected(player, 0)" [class.disabled]="isDisabled(player, 0)"
        *ngFor="let player of (player$ | async)"
        (click)="selectPlayer(player, 0)">
@@ -8,11 +8,44 @@
 </div>
 
 <div class="main-panel">
+  <div class="vs-wrapper"
+       (mouseenter)="showStartMatch = true"
+       (mouseleave)="showStartMatch = false">
+    <div class="vs-player player-1 align-left"
+         [ngClass]="{'slide-in': selectedPlayers[0]}">
+      <ng-container *ngIf="selectedPlayers[0] && selectedPlayers[0].name">
+        {{selectedPlayers[0].name}}
+      </ng-container>
+    </div>
 
+      <div class="vs-status align-center" [ngClass]="{'has-selection': this.selectedPlayers[0] || this.selectedPlayers[1]}">
+        <ng-container *ngIf="!this.selectedPlayers[0] && !this.selectedPlayers[1]">
+          Kontrahenten wählen
+        </ng-container>
+          <div class="vs-text" [ngClass]="{'spin-in': allPlayersAreSelected()}">
+            <ng-container *ngIf="allPlayersAreSelected() && !showStartMatch">
+              VS
+            </ng-container>
+          </div>
+        <div class="start-match"
+             *ngIf="allPlayersAreSelected() && showStartMatch"
+            (click)="startMatch()">
+          🏓 MATCH STARTEN
+        </div>
+    </div>
+
+    <div class="vs-player player-2 align-right"
+         [ngClass]="{'slide-in': selectedPlayers[1]}">
+      <ng-container *ngIf="selectedPlayers[1] && selectedPlayers[1].name">
+        {{selectedPlayers[1].name}}
+      </ng-container>
+    </div>
+
+  </div>
 </div>
 
 <div class="selection right">
-  <h2>Select Player 2</h2>
+  <h2>Spieler 2</h2>
   <div class="player" [class.selected]="isSelected(player, 1)" [class.disabled]="isDisabled(player, 1)"
        *ngFor="let player of (player$ | async)"
        (click)="selectPlayer(player, 1)">

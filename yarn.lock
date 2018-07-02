@@ -22,7 +22,7 @@
     cache-loader "^1.2.2"
     chalk "~2.2.2"
     circular-dependency-plugin "^5.0.2"
-    clean-css "^4.1.11"
+    clean-styles "^4.1.11"
     copy-webpack-plugin "^4.5.1"
     file-loader "^1.1.11"
     glob "^7.0.3"
@@ -35,7 +35,7 @@
     license-webpack-plugin "^1.3.1"
     lodash "^4.17.4"
     memory-fs "^0.4.1"
-    mini-css-extract-plugin "~0.4.0"
+    mini-styles-extract-plugin "~0.4.0"
     minimatch "^3.0.4"
     opn "^5.1.0"
     parse5 "^4.0.0"
@@ -1376,7 +1376,7 @@ class-utils@^0.3.5:
 
 clean-css@4.1.x, clean-css@^4.1.11:
   version "4.1.11"
-  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
+  resolved "https://registry.yarnpkg.com/clean-styles/-/clean-styles-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
   dependencies:
     source-map "0.5.x"
 
@@ -1430,7 +1430,7 @@ codelyzer@~4.2.1:
   resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-4.2.1.tgz#d56eaacefca7e8138aac0a630e484bdb09988544"
   dependencies:
     app-root-path "^2.0.1"
-    css-selector-tokenizer "^0.7.0"
+    styles-selector-tokenizer "^0.7.0"
     cssauron "^1.4.0"
     semver-dsl "^1.0.1"
     source-map "^0.5.6"
@@ -1710,20 +1710,20 @@ crypto-browserify@^3.11.0:
 
 css-parse@1.7.x:
   version "1.7.0"
-  resolved "https://registry.yarnpkg.com/css-parse/-/css-parse-1.7.0.tgz#321f6cf73782a6ff751111390fc05e2c657d8c9b"
+  resolved "https://registry.yarnpkg.com/styles-parse/-/styles-parse-1.7.0.tgz#321f6cf73782a6ff751111390fc05e2c657d8c9b"
 
 css-select@^1.1.0:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/css-select/-/css-select-1.2.0.tgz#2b3a110539c5355f1cd8d314623e870b121ec858"
+  resolved "https://registry.yarnpkg.com/styles-select/-/styles-select-1.2.0.tgz#2b3a110539c5355f1cd8d314623e870b121ec858"
   dependencies:
     boolbase "~1.0.0"
-    css-what "2.1"
+    styles-what "2.1"
     domutils "1.5.1"
     nth-check "~1.0.1"
 
 css-selector-tokenizer@^0.7.0:
   version "0.7.0"
-  resolved "https://registry.yarnpkg.com/css-selector-tokenizer/-/css-selector-tokenizer-0.7.0.tgz#e6988474ae8c953477bf5e7efecfceccd9cf4c86"
+  resolved "https://registry.yarnpkg.com/styles-selector-tokenizer/-/styles-selector-tokenizer-0.7.0.tgz#e6988474ae8c953477bf5e7efecfceccd9cf4c86"
   dependencies:
     cssesc "^0.1.0"
     fastparse "^1.1.1"
@@ -1731,7 +1731,7 @@ css-selector-tokenizer@^0.7.0:
 
 css-what@2.1:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/css-what/-/css-what-2.1.0.tgz#9467d032c38cfaefb9f2d79501253062f87fa1bd"
+  resolved "https://registry.yarnpkg.com/styles-what/-/styles-what-2.1.0.tgz#9467d032c38cfaefb9f2d79501253062f87fa1bd"
 
 cssauron@^1.4.0:
   version "1.4.0"
@@ -2986,7 +2986,7 @@ html-minifier@^3.2.3:
   resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.17.tgz#fe9834c4288e4d5b4dfe18fbc7f3f811c108e5ea"
   dependencies:
     camel-case "3.0.x"
-    clean-css "4.1.x"
+    clean-styles "4.1.x"
     commander "2.15.x"
     he "1.1.x"
     param-case "2.1.x"
@@ -4077,7 +4077,7 @@ mimic-fn@^1.0.0:
 
 mini-css-extract-plugin@~0.4.0:
   version "0.4.1"
-  resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-0.4.1.tgz#d2bcf77bb2596b8e4bd9257e43d3f9164c2e86cb"
+  resolved "https://registry.yarnpkg.com/mini-styles-extract-plugin/-/mini-styles-extract-plugin-0.4.1.tgz#d2bcf77bb2596b8e4bd9257e43d3f9164c2e86cb"
   dependencies:
     "@webpack-contrib/schema-utils" "^1.0.0-beta.0"
     loader-utils "^1.1.0"
@@ -5181,7 +5181,7 @@ renderkid@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/renderkid/-/renderkid-2.0.1.tgz#898cabfc8bede4b7b91135a3ffd323e58c0db319"
   dependencies:
-    css-select "^1.1.0"
+    styles-select "^1.1.0"
     dom-converter "~0.1"
     htmlparser2 "~3.3.0"
     strip-ansi "^3.0.0"
@@ -5961,7 +5961,7 @@ stylus@^0.54.5:
   version "0.54.5"
   resolved "https://registry.yarnpkg.com/stylus/-/stylus-0.54.5.tgz#42b9560931ca7090ce8515a798ba9e6aa3d6dc79"
   dependencies:
-    css-parse "1.7.x"
+    styles-parse "1.7.x"
     debug "*"
     glob "7.0.x"
     mkdirp "0.5.x"
