@@ -6,6 +6,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {NewComponent} from './+game/new/new.component';
 import {RouterModule, Routes} from '@angular/router';
+import {ScoreComponent} from './+game/score/score.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,10 @@ const routes: Routes = [
       {
         path: 'new',
         component: NewComponent
+      },
+      {
+        path: 'score',
+        component: ScoreComponent
       }
     ]
   }
@@ -23,7 +28,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    NewComponent
+    NewComponent,
+    ScoreComponent
   ],
   imports: [
     BrowserModule,
