@@ -1,0 +1,21 @@
+<div class="selection left">
+  <h2>Select Player 1</h2>
+  <div class="player" [class.selected]="isSelected(player, 0)" [class.disabled]="isDisabled(player, 0)"
+       *ngFor="let player of (player$ | async)"
+       (click)="selectPlayer(player, 0)">
+    {{player.name}}
+  </div>
+</div>
+
+<div class="main-panel">
+
+</div>
+
+<div class="selection right">
+  <h2>Select Player 2</h2>
+  <div class="player" [class.selected]="isSelected(player, 1)" [class.disabled]="isDisabled(player, 1)"
+       *ngFor="let player of (player$ | async)"
+       (click)="selectPlayer(player, 1)">
+    {{player.name}}
+  </div>
+</div>

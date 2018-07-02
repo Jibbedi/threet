@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: #2d3436;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+
+.player {
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 20px;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.player.selected {
+  background: white;
+  color: #2d3436;
+}
+
+.player.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.main-panel {
+  flex: 2;
+}
