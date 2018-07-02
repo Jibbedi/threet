@@ -30,7 +30,7 @@
         <div class="start-match"
              *ngIf="allPlayersAreSelected() && showStartMatch"
             (click)="startMatch()">
-          🏓 MATCH STARTEN
+          {{loading ? 'Wird gestartet...' : '🏓 MATCH STARTEN'}}
         </div>
     </div>
 

@@ -16,6 +16,7 @@ export class NewComponent implements OnInit {
   selectedPlayers: Player[] = [];
 
   showStartMatch = false;
+  loading = false;
 
   constructor(private db: AngularFirestore,
               private router: Router) {
@@ -51,6 +52,8 @@ export class NewComponent implements OnInit {
 
   startMatch(): void {
     if (!this.allPlayersAreSelected()) return;
+
+    this.loading = true;
 
     const game: Game = {
       gameId: 'newGame',
