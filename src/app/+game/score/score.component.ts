@@ -28,11 +28,11 @@ export class ScoreComponent {
     }
 
     if ($event.code === 'ArrowUp') {
-      this.game.secondPlayerScore = Math.min(this.game.secondPlayerScore + 1, WINNING_GAME_POINTS);
+      this.game.secondPlayerScore = this.game.secondPlayerScore + 1;
     } else if ($event.code === 'ArrowDown') {
       this.game.secondPlayerScore = Math.max(this.game.secondPlayerScore - 1, 0);
     } else if ($event.code === 'KeyW') {
-      this.game.firstPlayerScore = Math.min(this.game.firstPlayerScore + 1, WINNING_GAME_POINTS);
+      this.game.firstPlayerScore = this.game.firstPlayerScore + 1;
     } else if ($event.code === 'KeyS') {
       this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0);
     }
@@ -67,7 +67,19 @@ export class ScoreComponent {
   }
 
   isGameFinished() {
-    return this.game.firstPlayerScore === WINNING_GAME_POINTS || this.game.secondPlayerScore === WINNING_GAME_POINTS;
+    const { firstPlayerScore, secondPlayerScore } = this.game;
+    const reachedWinningPoints = firstPlayerScore >= WINNING_GAME_POINTS || secondPlayerScore >= WINNING_GAME_POINTS;
+    const playerHasTwoPointsLead = Math.abs((firstPlayerScore - secondPlayerScore)) >= 2;
+
+    if (!reachedWinningPoints) return false;
+    if (reachedWinningPoints && playerHasTwoPointsLead) return true;
+
+    // check for tie
+    if ((firstPlayerScore >= WINNING_GAME_POINTS - 1) && (secondPlayerScore >= WINNING_GAME_POINTS - 1)) {
+      return playerHasTwoPointsLead;
+    } else {
+      return false;
+    }
   }
 
   finishGame() {
