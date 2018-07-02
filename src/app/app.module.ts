@@ -18,7 +18,7 @@ const routes: Routes = [
         component: NewComponent
       },
       {
-        path: 'score',
+        path: 'score/:gameId',
         component: ScoreComponent
       }
     ]

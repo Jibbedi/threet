@@ -6,3 +6,16 @@ body, html {
   font-family: 'Exo', sans-serif;
   color: white;
 }
+
+.button {
+  background: #d63031;
+  padding: 5px;
+  border-radius: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
