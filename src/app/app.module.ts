@@ -7,6 +7,7 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {NewComponent} from './+game/new/new.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ScoreComponent} from './+game/score/score.component';
+import {LeaderboardComponent} from './+leaderboard/leaderboard/leaderboard.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
         component: ScoreComponent
       }
     ]
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent
   }
 ];
 
@@ -29,7 +34,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     NewComponent,
-    ScoreComponent
+    ScoreComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,
