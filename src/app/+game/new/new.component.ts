@@ -56,7 +56,6 @@ export class NewComponent implements OnInit {
     this.loading = true;
 
     const game = {
-      gameId: 'newGame',
       firstPlayerId: this.selectedPlayers[0].name,
       secondPlayerId: this.selectedPlayers[1].name,
       firstPlayerName: this.selectedPlayers[0].name,
