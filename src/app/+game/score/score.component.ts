@@ -28,10 +28,12 @@ export class ScoreComponent {
     }
 
     if ($event.code === 'ArrowUp') {
+      if (this.isGameFinished()) return;
       this.game.secondPlayerScore = this.game.secondPlayerScore + 1;
     } else if ($event.code === 'ArrowDown') {
       this.game.secondPlayerScore = Math.max(this.game.secondPlayerScore - 1, 0);
     } else if ($event.code === 'KeyW') {
+      if (this.isGameFinished()) return;
       this.game.firstPlayerScore = this.game.firstPlayerScore + 1;
     } else if ($event.code === 'KeyS') {
       this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0);
