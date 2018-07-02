@@ -3,10 +3,22 @@
   width: 100vw;
   height: 100vh;
   background: #2d3436;
+  font-size: 20px;
 }
 
 .recent-games {
   padding: 5px;
+  flex: 1
+}
+
+.leaderboard {
+  flex: 1;
+  padding: 5px;
+}
+
+.leaderboard td {
+  margin-right: 10px;
+  text-align: center;
 }
 
 .winner-name {
@@ -16,3 +28,5 @@
 .loser-name {
   color: #d63031;
 }
+
+

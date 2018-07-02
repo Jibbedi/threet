@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import {Game} from '../../models/Game';
+import {Player} from '../../models/Player';
 
 @Component({
   selector: 'app-leaderboard',
@@ -12,8 +13,13 @@ export class LeaderboardComponent implements OnInit {
 
   games$: Observable<Game[]>;
 
+  ranking: Player[] = [];
+
   constructor(private db: AngularFirestore) {
     this.games$ = this.db.collection<Game>('games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
+    this.db.collection<Player>('players').valueChanges().subscribe(players => {
+      this.ranking = players.sort((a, b) => a.winPercentage);
+    });
 
   }
 
