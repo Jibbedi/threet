@@ -1,0 +1,5 @@
+<div class="recent-games">
+  <div class="game" *ngFor="let game of (games$ | async)">
+    <span class="winner-name" {{}}
+  </div>
+</div>
