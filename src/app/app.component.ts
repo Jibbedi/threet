@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {AngularFirestore} from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  players;
+
+  constructor(private db: AngularFirestore) {
+    this.players = this.db.collection('players').valueChanges();
+  }
 }
