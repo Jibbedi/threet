@@ -75,6 +75,7 @@ export class ScoreComponent {
       return;
     }
     this.game.timestamp = Date.now();
+    this.game.done = true;
     this.db.collection<Game[]>('games').doc<Game>(this.game.gameId).set(this.game);
   }
 }

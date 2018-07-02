@@ -4,3 +4,15 @@
   height: 100vh;
   background: #2d3436;
 }
+
+.recent-games {
+  padding: 5px;
+}
+
+.winner-name {
+  color: #00b894;
+}
+
+.loser-name {
+  color: #d63031;
+}
