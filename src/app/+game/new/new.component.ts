@@ -59,6 +59,8 @@ export class NewComponent implements OnInit {
       gameId: 'newGame',
       firstPlayerId: this.selectedPlayers[0].name,
       secondPlayerId: this.selectedPlayers[1].name,
+      firstPlayerName: this.selectedPlayers[0].name,
+      secondPlayerName: this.selectedPlayers[1].name,
       firstPlayerScore: 0,
       secondPlayerScore: 0,
       timestamp: new Date().getTime()
