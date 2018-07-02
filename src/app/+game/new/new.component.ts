@@ -21,6 +21,11 @@ export class NewComponent implements OnInit {
   }
 
   selectPlayer(player: Player, index: number) {
+
+    if (this.isDisabled(player, index)) {
+      return;
+    }
+
     if (!this.isSelected(player, index)) {
       this.selectedPlayers[index] = player;
     } else {
