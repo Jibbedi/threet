@@ -12,6 +12,11 @@ import {LeaderboardComponent} from './+leaderboard/leaderboard/leaderboard.compo
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/game/new',
+    pathMatch: 'full'
+  },
+  {
     path: 'game',
     children: [
       {
