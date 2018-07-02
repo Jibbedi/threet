@@ -55,7 +55,7 @@ export class NewComponent implements OnInit {
 
     this.loading = true;
 
-    const game: Game = {
+    const game = {
       gameId: 'newGame',
       firstPlayerId: this.selectedPlayers[0].name,
       secondPlayerId: this.selectedPlayers[1].name,
@@ -64,7 +64,7 @@ export class NewComponent implements OnInit {
       timestamp: new Date().getTime()
     };
 
-    this.db.collection<Game>('games').add(game).then(docRef => {
+    this.db.collection<Game>('games').add(game as Game).then(docRef => {
       this.router.navigateByUrl('game/score/' + docRef.id);
     });
   }
