@@ -42,4 +42,12 @@ export class LeaderboardComponent implements OnInit {
     return game.firstPlayerScore > game.secondPlayerScore ? game.secondPlayerName : game.firstPlayerName;
   }
 
+  getPercentage(percentage: number) {
+    return percentage ? Math.round(percentage * 100) : null;
+  }
+
+  getTotalGames(player: Player) {
+    const totalGames = player.totalWins + player.totalLoses;
+    return Number.isNaN(totalGames) ? null : totalGames;
+  }
 }
