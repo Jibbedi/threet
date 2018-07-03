@@ -13,7 +13,10 @@
     <tbody>
     <tr *ngFor="let player of ranking; let index = index; let first = first"
         [ngClass]="{'first': first}">
-      <td>{{index + 1}}</td>
+      <td class="rank"
+          [ngClass]="{'first': first}">
+        {{index + 1}}
+      </td>
       <td>{{player.name}}</td>
       <td>
         <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">

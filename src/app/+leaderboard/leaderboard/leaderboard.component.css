@@ -32,6 +32,9 @@ h3 {
     background: white;
     color: #3a4a46;
     border-radius: 2px; }
+    .leaderboard tr td.rank.first {
+      color: white;
+      background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%), radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #ae9a24 62.5%, #5d4a1f 100%); }
 
 .winner-name {
   color: #00b894; }
