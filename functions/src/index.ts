@@ -14,40 +14,57 @@ admin.initializeApp(functions.config().firebase);
 exports.calculateWins = functions.firestore
   .document('games/{gamesId}')
   .onWrite(event => {
-    const game = event.data.data();
+    const game = event.after.data();
     const firstPlayerId = game.firstPlayerId;
     const secondPlayerId = game.secondPlayerId;
 
-    const wherePlayerIsFirstPlayerGames = admin
-      .firestore()
-      .collection('games')
-      .where('firstPlayerId', '==', firstPlayerId)
-      .get();
+
+    return Promise.all([firstPlayerId, secondPlayerId].map(id => {
+
+      const wherePlayerIsFirstPlayerGames = admin
+        .firestore()
+        .collection('games')
+        .where('firstPlayerId', '==', id)
+        .get();
+
+      const wherePlayerIsSecondPlayerGames = admin
+        .firestore()
+        .collection('games')
+        .where('secondPlayerId', '==', id)
+        .get();
 
 
-    return Promise.all([wherePlayerIsFirstPlayerGames])
-      .then(snapshots => {
-        let totalWins = 0;
-        let totalLoses = 0;
+      return Promise.all([wherePlayerIsFirstPlayerGames, wherePlayerIsSecondPlayerGames])
+        .then(snapshots => {
+          let totalWins = 0;
+          let totalLoses = 0;
 
-        snapshots.forEach(snapShot => snapShot.docs.forEach(doc => {
-          const game = doc.data();
-          if (game.firstPlayerScore > game.secondPlayerScore) {
-            totalWins++;
-          } else {
-            totalLoses++;
-          }
-        }));
+          snapshots.forEach(snapShot => snapShot.docs.forEach(doc => {
+            const g = doc.data();
+            if (g.firstPlayerScore > g.secondPlayerScore) {
+              if (g.firstPlayerId === id) {
+                totalWins++;
+              } else {
+                totalLoses++;
+              }
+            } else {
+              if (g.secondPlayerId === id) {
+                totalWins++;
+              } else {
+                totalLoses++;
+              }
+            }
+          }));
 
 
-        return admin.firestore().collection('players').doc(firstPlayerId).update({
-          totalWins,
-          totalLoses,
-          winPercentage: totalWins / (totalWins + totalLoses)
+          return admin.firestore().collection('players').doc(id).update({
+            totalWins,
+            totalLoses,
+            winPercentage: totalWins / (totalWins + totalLoses)
+          });
+
         });
-
-      });
-
+    }));
   });
 
 
