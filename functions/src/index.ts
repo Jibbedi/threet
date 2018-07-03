@@ -1,6 +1,9 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+var EloRating = require('elo-rating');
+
+
 admin.initializeApp(functions.config().firebase);
 
 // // Start writing Firebase Functions
@@ -15,8 +18,18 @@ exports.calculateWins = functions.firestore
   .document('games/{gamesId}')
   .onWrite(event => {
     const game = event.after.data();
+
+    if (!game.done) {
+      console.log('not done');
+      return Promise.resolve(true);
+    }
+
+    console.log('done');
+
+
     const firstPlayerId = game.firstPlayerId;
     const secondPlayerId = game.secondPlayerId;
+    const firstPlayerWon = game.firstPlayerScore > game.secondPlayerScore;
 
 
     return Promise.all([firstPlayerId, secondPlayerId].map(id => {
@@ -64,7 +77,26 @@ exports.calculateWins = functions.firestore
           });
 
         });
-    }));
+    })).then(r => {
+
+      return Promise.all([admin
+        .firestore()
+        .collection('players').doc(firstPlayerId).get(), admin
+        .firestore()
+        .collection('players').doc(secondPlayerId).get()]).then(players => {
+        const firstPlayerElo = players[0].data().eloRank || 1000;
+        const secondPlayerElo = players[1].data().eloRank || 1000;
+
+        const result = EloRating.calculate(firstPlayerElo, secondPlayerElo, firstPlayerWon);
+
+        return Promise.all([admin
+          .firestore()
+          .collection('players').doc(firstPlayerId).update({eloRank: result.playerRating}), admin
+          .firestore()
+          .collection('players').doc(secondPlayerId).update({eloRank: result.opponentRating})]);
+
+      });
+    });
   });
 
 
