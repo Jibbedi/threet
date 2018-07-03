@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from "@angular/router";
+import {Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import {Player} from '../../models/Player';
-import { Game } from "../../models/Game";
+import {Game} from '../../models/Game';
 
 @Component({
   selector: 'app-new',
@@ -56,8 +56,8 @@ export class NewComponent implements OnInit {
     this.loading = true;
 
     const game = {
-      firstPlayerId: this.selectedPlayers[0].name,
-      secondPlayerId: this.selectedPlayers[1].name,
+      firstPlayerId: this.selectedPlayers[0].id,
+      secondPlayerId: this.selectedPlayers[1].id,
       firstPlayerName: this.selectedPlayers[0].name,
       secondPlayerName: this.selectedPlayers[1].name,
       firstPlayerScore: 0,

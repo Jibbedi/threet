@@ -19,6 +19,7 @@
     <thead>
     <th>Rank</th>
     <th>Name</th>
+    <th>Total games</th>
     <th>Wins total</th>
     <th>Lose total</th>
     <th>Percentage</th>
@@ -27,6 +28,7 @@
     <tr *ngFor="let player of ranking; let index = index">
       <td>{{index + 1}}</td>
       <td>{{player.name}}</td>
+      <td>{{player.totalWins + player.totalLoses}}</td>
       <td>{{player.totalWins}}</td>
       <td>{{player.totalLoses}}</td>
       <td>{{player.winPercentage}}</td>

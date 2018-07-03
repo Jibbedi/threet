@@ -18,7 +18,7 @@ export class LeaderboardComponent implements OnInit {
   constructor(private db: AngularFirestore) {
     this.games$ = this.db.collection<Game>('games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
     this.db.collection<Player>('players').valueChanges().subscribe(players => {
-      this.ranking = players.sort((a, b) => a.winPercentage);
+      this.ranking = players.sort((a, b) => a.winPercentage > b.winPercentage ? -1 : a.winPercentage === b.winPercentage ? 0 : 1);
     });
 
   }
@@ -35,11 +35,11 @@ export class LeaderboardComponent implements OnInit {
   }
 
   getWinnerName(game: Game) {
-    return game.firstPlayerScore > game.secondPlayerScore ? game.firstPlayerId : game.secondPlayerId;
+    return game.firstPlayerScore > game.secondPlayerScore ? game.firstPlayerName : game.secondPlayerName;
   }
 
   getLoserName(game: Game) {
-    return game.firstPlayerScore > game.secondPlayerScore ? game.secondPlayerId : game.firstPlayerId;
+    return game.firstPlayerScore > game.secondPlayerScore ? game.secondPlayerName : game.firstPlayerName;
   }
 
 }
