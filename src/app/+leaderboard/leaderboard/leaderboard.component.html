@@ -1,3 +1,38 @@
+<div class="leaderboard">
+  <h3>Ranking</h3>
+  <table>
+    <thead>
+    <th>Rank</th>
+    <th>Name</th>
+    <th>Total games</th>
+    <th>Wins total</th>
+    <th>Lose total</th>
+    <th>Elo Rank</th>
+    <th>Percentage</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let player of ranking; let index = index; let first = first"
+        [ngClass]="{'first': first}">
+      <td>{{index + 1}}</td>
+      <td>{{player.name}}</td>
+      <td>
+        <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
+          {{totalGames}}
+        </ng-container>
+      </td>
+      <td>{{player.totalWins}}</td>
+      <td>{{player.totalLoses}}</td>
+      <td>{{player.eloRank}}</td>
+      <td>
+        <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
+          {{percentage}} %
+        </ng-container>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
 <div class="recent-games">
   <h3>Last 20 games</h3>
   <ng-container *ngIf="(games$ | async) as games">
@@ -13,38 +48,5 @@
 </div>
 
 
-<div class="leaderboard">
-  <h3>Ranking</h3>
-  <table>
-    <thead>
-    <th>Rank</th>
-    <th>Name</th>
-    <th>Total games</th>
-    <th>Wins total</th>
-    <th>Lose total</th>
-    <th>Elo Rank</th>
-    <th>Percentage</th>
-    </thead>
-    <tbody>
-    <tr *ngFor="let player of ranking; let index = index">
-      <td>{{index + 1}}</td>
-      <td>{{player.name}}</td>
-      <td>
-        <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
-          {{totalGames}}
-        </ng-container>
-      </td>
-      <td>{{player.totalWins}}</td>
-      <td>{{player.totalLoses}}</td>
-      <td>{{player.eloRank}}</td>
-      <td>
-        <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
-          {{percentage}}
-        </ng-container>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
 
-<ng-template #noData>-</ng-template>
+<ng-template #noData>0 %</ng-template>
