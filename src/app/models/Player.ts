@@ -5,4 +5,5 @@ export interface Player {
   totalLoses: number;
   winPercentage: number;
   streak: number;
+  eloRank : number;
 }

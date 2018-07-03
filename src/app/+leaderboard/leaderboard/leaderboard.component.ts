@@ -18,7 +18,9 @@ export class LeaderboardComponent implements OnInit {
   constructor(private db: AngularFirestore) {
     this.games$ = this.db.collection<Game>('games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
     this.db.collection<Player>('players').valueChanges().subscribe(players => {
-      this.ranking = players.sort((a, b) => a.winPercentage > b.winPercentage ? -1 : a.winPercentage === b.winPercentage ? 0 : 1);
+      this.ranking = players.map(player => {
+        return {...player, eloRank: player.eloRank || 1000};
+      }).sort((a, b) => a.eloRank > b.eloRank ? -1 : a.eloRank === b.eloRank ? 0 : 1);
     });
 
   }

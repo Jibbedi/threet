@@ -22,6 +22,7 @@
     <th>Total games</th>
     <th>Wins total</th>
     <th>Lose total</th>
+    <th>Elo Rank</th>
     <th>Percentage</th>
     </thead>
     <tbody>
@@ -35,6 +36,7 @@
       </td>
       <td>{{player.totalWins}}</td>
       <td>{{player.totalLoses}}</td>
+      <td>{{player.eloRank}}</td>
       <td>
         <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
           {{percentage}}
