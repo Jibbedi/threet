@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import {Player} from '../../models/Player';
 import {Game} from '../../models/Game';
+import {Sounds} from "../../../assets/sounds";
 
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.css']
 })
-export class NewComponent implements OnInit {
+export class NewComponent {
 
   player$: Observable<Player[]>;
   selectedPlayers: Player[] = [];
@@ -23,15 +24,14 @@ export class NewComponent implements OnInit {
     this.player$ = this.db.collection<Player>('players').valueChanges();
   }
 
-  ngOnInit() {
-  }
-
   selectPlayer(player: Player, index: number) {
     if (this.isDisabled(player, index)) {
       return;
     }
 
     if (!this.isSelected(player, index)) {
+      if (!this.selectedPlayers[index]) this.playPlayerSlideInSound();
+      this.announcePlayerTTS(player, index);
       this.selectedPlayers[index] = player;
     } else {
       this.selectedPlayers[index] = null;
@@ -53,6 +53,7 @@ export class NewComponent implements OnInit {
   startMatch(): void {
     if (!this.allPlayersAreSelected()) return;
 
+    this.playStartMatchSound();
     this.loading = true;
 
     const game = {
@@ -68,6 +69,26 @@ export class NewComponent implements OnInit {
     this.db.collection<Game>('games').add(game as Game).then(docRef => {
       this.router.navigateByUrl('game/score/' + docRef.id);
     });
+  }
+
+  playStartMatchSound(): void {
+    const audio = new Audio(Sounds.START_MATCH);
+    audio.play();
+  }
+
+  playPlayerSlideInSound(): void {
+    const audio = new Audio(Sounds.PLAYER_SLIDE_IN);
+    audio.play();
+  }
+
+  announcePlayerTTS(player: Player, index: number): void {
+    const utterance = index === 0 ? `${player.name}!` : `versus ${player.name}!`;
+    let msg = new SpeechSynthesisUtterance();
+    let voices = window.speechSynthesis.getVoices();
+    msg.voice = voices[6];
+    msg.text = utterance;
+    msg.lang = 'es-ES';
+    speechSynthesis.speak(msg);
   }
 
 }
