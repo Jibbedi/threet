@@ -1,0 +1,91 @@
+.align-right {
+  text-align: right; }
+
+.align-left {
+  text-align: left; }
+
+.align-center {
+  text-align: center; }
+
+:host {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: #2d3436; }
+
+h2 {
+  color: #58736c; }
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center; }
+
+.player {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 20px;
+  width: 100px;
+  margin-bottom: 10px;
+  cursor: pointer; }
+  .player:hover:not(.disabled) {
+    background: #3e8371; }
+  .player.selected {
+    background: white;
+    color: #2d3436; }
+  .player.disabled {
+    opacity: 0.5;
+    cursor: not-allowed; }
+
+.main-panel {
+  flex: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.vs-wrapper {
+  flex: 1;
+  margin: 0 200px; }
+  .vs-wrapper .vs-player {
+    font-size: 12em;
+    font-weight: bold;
+    visibility: hidden;
+    height: 195px;
+    text-shadow: -10px -1px 4px white;
+    transition: all 0.2s; }
+    .vs-wrapper .vs-player.player-1 {
+      transform: translateX(-400px);
+      transition: all 0.2s; }
+    .vs-wrapper .vs-player.player-2 {
+      transform: translateX(400px); }
+    .vs-wrapper .vs-player.slide-in {
+      transform: translateX(0px);
+      text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+      visibility: visible; }
+  .vs-wrapper .vs-status {
+    margin-bottom: -27px;
+    margin-top: 23px;
+    font-size: 7em;
+    color: #3e8371;
+    font-style: italic; }
+    .vs-wrapper .vs-status.has-selection {
+      height: 150px; }
+    .vs-wrapper .vs-status .vs-text {
+      visibility: hidden;
+      transition: 0.15s all ease-out;
+      transform: rotateZ(-220deg); }
+      .vs-wrapper .vs-status .vs-text.spin-in {
+        visibility: visible;
+        transform: rotateZ(0deg); }
+    .vs-wrapper .vs-status .start-match {
+      padding: 10px;
+      cursor: pointer;
+      background: white;
+      color: #0e1618;
+      font-size: 0.6em;
+      color: #f03a17; }
+
+/*# sourceMappingURL=new.component.css.map */

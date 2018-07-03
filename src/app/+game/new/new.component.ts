@@ -8,7 +8,7 @@ import { Game } from "../../models/Game";
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.scss']
+  styleUrls: ['./new.component.css']
 })
 export class NewComponent implements OnInit {
 
