@@ -5,6 +5,7 @@
   width: 100vw;
   height: 100vh;
   background: #2d3436;
+  overflow: hidden;
 }
 
 h2 {
@@ -23,7 +24,7 @@ h2 {
   text-align: center;
   cursor: pointer;
   border-radius: 5px;
-  padding: 20px;
+  padding: 15px;
   width: 100px;
   margin-bottom: 10px;
   cursor: pointer;
