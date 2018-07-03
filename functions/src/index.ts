@@ -4,6 +4,27 @@ import * as admin from 'firebase-admin';
 var EloRating = require('elo-rating');
 
 
+function calculateStreak(currentStreak = 0, win: boolean) {
+  const impact = win ? +1 : -1;
+
+  if (currentStreak >= 0 && !win) {
+    return impact;
+  } else if (currentStreak < 0 && win) {
+    return impact;
+  } else {
+    return currentStreak + impact;
+  }
+}
+
+function rewriteHistory(history = [], win: boolean) {
+  history.push(win);
+  if (history.length > 5) {
+    history.shift();
+  }
+  return history;
+}
+
+
 admin.initializeApp(functions.config().firebase);
 
 // // Start writing Firebase Functions
@@ -89,11 +110,26 @@ exports.calculateWins = functions.firestore
 
         const result = EloRating.calculate(firstPlayerElo, secondPlayerElo, firstPlayerWon);
 
+
+        const firstPlayerStreak = calculateStreak(players[0].data().streak, firstPlayerWon);
+        const secondPlayerStreak = calculateStreak(players[1].data().streak, !firstPlayerWon);
+
+        const firstPlayerHistory = rewriteHistory(players[0].data().history, firstPlayerWon);
+        const secondPlayerHistory = rewriteHistory(players[1].data().history, !firstPlayerWon);
+
         return Promise.all([admin
           .firestore()
-          .collection('players').doc(firstPlayerId).update({eloRank: result.playerRating}), admin
+          .collection('players').doc(firstPlayerId).update({
+            eloRank: result.playerRating,
+            streak: firstPlayerStreak,
+            history: firstPlayerHistory
+          }), admin
           .firestore()
-          .collection('players').doc(secondPlayerId).update({eloRank: result.opponentRating})]);
+          .collection('players').doc(secondPlayerId).update({
+            eloRank: result.opponentRating,
+            streak: secondPlayerStreak,
+            history: secondPlayerHistory
+          })]);
 
       });
     });
