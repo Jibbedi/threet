@@ -1,53 +1,52 @@
-<div class="leaderboard">
-  <h3>Ranking</h3>
-  <table>
-    <thead>
-    <th>Rank</th>
-    <th>Name</th>
-    <th>Total games</th>
-    <th>Wins total</th>
-    <th>Lose total</th>
-    <th>Score Diff</th>
-    <th>Elo Rank</th>
-    <th>Percentage</th>
-    <th>Streak</th>
-    <th>Trend</th>
-    </thead>
-    <tbody>
-    <tr *ngFor="let player of ranking; let index = index; let first = first"
-        [ngClass]="{'first': first}">
-      <td class="rank"
+<h3>Ranking</h3>
+<div class="rank-wrapper">
+  <div class="leaderboard">
+    <table>
+      <thead>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Games</th>
+      <th>Wins</th>
+      <th>Loses</th>
+      <th>Won %</th>
+      <th>+/-</th>
+      <th>Elo</th>
+      <th>Trend</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let player of ranking; let index = index; let first = first"
           [ngClass]="{'first': first}">
-        {{index + 1}}
-      </td>
-      <td>{{player.name}}</td>
-      <td>
-        <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
-          {{totalGames}}
-        </ng-container>
-      </td>
-      <td>{{player.totalWins}}</td>
-      <td>{{player.totalLoses}}</td>
-      <td>{{player.totalScoreDiff}}</td>
-      <td>{{player.eloRank}}</td>
-      <td>
-        <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
-          {{percentage}} %
-        </ng-container>
-      </td>
-      <td>
-        {{player.streak}}
-      </td>
-      <td>
-        <div class="history">
-          <div class="history-marker" *ngFor="let history of player.history" [class.win]="history"
-               [class.lose]="!history">&nbsp;
+        <td class="rank"
+            [ngClass]="{'first': first}">
+          {{index + 1}}
+        </td>
+        <td>{{player.name}}</td>
+        <td>
+          <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
+            {{totalGames}}
+          </ng-container>
+        </td>
+        <td>{{player.totalWins}}</td>
+        <td>{{player.totalLoses}}</td>
+        <td>
+          <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
+            {{percentage}} %
+          </ng-container>
+        </td>
+        <td>{{player.totalScoreDiff}}</td>
+        <td>{{player.eloRank}}</td>
+        <td>
+          <div class="history">
+            <div class="history-marker" *ngFor="let history of player.history" [class.win]="history"
+                 [class.lose]="!history">&nbsp;
+            </div>
           </div>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="recent-games">
@@ -65,6 +64,34 @@
     </div>
   </div>
 
+</div>
+
+<div class="streaks streaks-left">
+  <div class="streak-tile">
+    <div class="winner-name">Current longest streak</div>
+    <div class="name">{{longestSteakPlayer?.name}}</div>
+    <div class="streak">{{longestSteakPlayer?.streak}}</div>
+  </div>
+
+  <div class="streak-tile">
+    <div class="loser-name">Current longest drought</div>
+    <div class="name">{{longestCurrentDroughtPlayer?.name}}</div>
+    <div class="streak">{{longestCurrentDroughtPlayer?.streak}}</div>
+  </div>
+</div>
+
+<div class="streaks streaks-right">
+  <div class="streak-tile">
+    <div class="winner-name">Longest streak ever</div>
+    <div class="name">{{longestSteakPlayer?.name}}</div>
+    <div class="streak">{{longestSteakPlayer?.longestPositiveStreak}}</div>
+  </div>
+
+  <div class="streak-tile">
+    <div class="loser-name">Longest drought ever</div>
+    <div class="name">{{longestDroughtPlayer?.name}}</div>
+    <div class="streak">{{longestDroughtPlayer?.longestNegativeStreak}}</div>
+  </div>
 </div>
 
 

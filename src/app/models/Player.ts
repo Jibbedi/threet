@@ -5,8 +5,11 @@ export interface Player {
   totalLoses: number;
   winPercentage: number;
   streak: number;
+  longestPositiveStreak: number;
+  longestNegativeStreak: number;
   eloRank: number;
   totalScoreFor: number;
   totalScoreAgainst: number;
   totalScoreDiff: number;
+  history: boolean[];
 }

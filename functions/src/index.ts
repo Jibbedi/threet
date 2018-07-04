@@ -139,12 +139,16 @@ exports.calculateWins = functions.firestore
           .collection('players').doc(firstPlayerId).update({
             eloRank: result.playerRating,
             streak: firstPlayerStreak,
+            longestNegativeStreak: Math.min(firstPlayerStreak, players[0].data().longestNegativeStreak || 0),
+            longestPositiveStreak: Math.max(firstPlayerStreak, players[0].data().longestPositiveStreak || 0),
             history: firstPlayerHistory
           }), admin
           .firestore()
           .collection('players').doc(secondPlayerId).update({
             eloRank: result.opponentRating,
             streak: secondPlayerStreak,
+            longestNegativeStreak: Math.min(secondPlayerStreak, players[1].data().longestNegativeStreak || 0),
+            longestPositiveStreak: Math.max(secondPlayerStreak, players[1].data().longestPositiveStreak || 0),
             history: secondPlayerHistory
           })]);
 
