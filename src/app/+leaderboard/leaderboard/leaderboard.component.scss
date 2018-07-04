@@ -20,8 +20,16 @@ h3 {
   overflow-y: auto;
 
   .game {
+    display: flex;
+    align-items: baseline;
     margin-bottom: 5px;
   }
+}
+
+.time-ago {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-left: 6px;
 }
 
 .game-wrapper.two-columns {

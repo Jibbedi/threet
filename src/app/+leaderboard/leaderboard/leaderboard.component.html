@@ -55,10 +55,13 @@
   <div class="game-wrapper" [class.two-columns]="games.length > 10" *ngIf="(games$ | async) as games">
     <div *ngIf="games.length === 0">No games available</div>
     <div class="game" *ngFor="let game of games">
+      <div class="text">
     <span class="winner-name">
       {{getWinnerName(game)}}
     </span> hat <span class="loser-name">{{getLoserName(game)}}</span> mit <span class="winner-score">{{getWinnerScore(game)}}</span>
-      zu <span class="loser-score">{{getLoserScore(game)}}</span> geschlagen.
+        zu <span class="loser-score">{{getLoserScore(game)}}</span> geschlagen.
+      </div>
+      <div class="time-ago">{{getTimeAgo(game)}}</div>
     </div>
   </div>
 

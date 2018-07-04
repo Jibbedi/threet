@@ -3,6 +3,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import {Game} from '../../models/Game';
 import {Player} from '../../models/Player';
+import timeago from 'timeago.js';
 
 @Component({
   selector: 'app-leaderboard',
@@ -51,5 +52,9 @@ export class LeaderboardComponent implements OnInit {
   getTotalGames(player: Player) {
     const totalGames = player.totalWins + player.totalLoses;
     return Number.isNaN(totalGames) ? null : totalGames;
+  }
+
+  getTimeAgo(game: Game) {
+    return timeago().format(game.timestamp);
   }
 }
