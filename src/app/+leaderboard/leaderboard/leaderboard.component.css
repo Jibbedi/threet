@@ -4,42 +4,83 @@
   height: 100vh;
   flex-direction: column;
   align-items: center;
-  font-size: 20px; }
+  font-size: 20px;
+}
 
 h3 {
   color: #64b39e;
   text-align: center;
-  font-size: 1.7em; }
+  font-size: 1.7em;
+}
 
 .recent-games {
   padding: 5px;
   flex: 1;
   text-align: center;
-  overflow-y: auto; }
-  .recent-games .game {
-    margin-bottom: 5px; }
+  overflow-y: auto;
+}
+
+.recent-games .game {
+  margin-bottom: 5px;
+}
+
+.game-wrapper.two-columns {
+  -webkit-column-count: 2;
+  column-count: 2;
+}
 
 .leaderboard {
   flex: 1;
-  padding: 5px; }
-  .leaderboard th {
-    padding: 0px 15px;
-    color: white; }
-  .leaderboard tr td {
-    margin-right: 10px;
-    padding: 4px 15px;
-    text-align: center;
-    background: white;
-    color: #3a4a46;
-    border-radius: 2px; }
-    .leaderboard tr td.rank.first {
-      color: white;
-      background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%), radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #ae9a24 62.5%, #5d4a1f 100%); }
+  padding: 5px;
+}
+
+.leaderboard th {
+  padding: 0px 15px;
+  color: white;
+}
+
+.leaderboard tr td {
+  margin-right: 10px;
+  padding: 4px 15px;
+  text-align: center;
+  background: white;
+  color: #3a4a46;
+  border-radius: 2px;
+}
+
+.leaderboard tr td.rank.first {
+  color: white;
+  background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%), radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #ae9a24 62.5%, #5d4a1f 100%);
+}
 
 .winner-name {
-  color: #00b894; }
+  color: #00b894;
+}
 
 .loser-name {
-  color: #d63031; }
+  color: #d63031;
+}
+
+.history {
+  display: flex;
+  justify-content: center;
+}
+
+.history-marker {
+  width: 10px;
+  height: 10px;
+}
+
+.history-marker:not(:last-child) {
+  margin-right: 2px;
+}
+
+.history-marker.win {
+  background: #00b894;
+}
+
+.history-marker.lose {
+  background: #d63031;
+}
 
 /*# sourceMappingURL=leaderboard.component.css.map */

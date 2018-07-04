@@ -9,6 +9,8 @@
     <th>Lose total</th>
     <th>Elo Rank</th>
     <th>Percentage</th>
+    <th>Streak</th>
+    <th>Trend</th>
     </thead>
     <tbody>
     <tr *ngFor="let player of ranking; let index = index; let first = first"
@@ -31,6 +33,16 @@
           {{percentage}} %
         </ng-container>
       </td>
+      <td>
+        {{player.streak}}
+      </td>
+      <td>
+        <div class="history">
+          <div class="history-marker" *ngFor="let history of player.history" [class.win]="history"
+               [class.lose]="!history">&nbsp;
+          </div>
+        </div>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -38,7 +50,7 @@
 
 <div class="recent-games">
   <h3>Last 20 games</h3>
-  <ng-container *ngIf="(games$ | async) as games">
+  <div class="game-wrapper" [class.two-columns]="games.length > 10" *ngIf="(games$ | async) as games">
     <div *ngIf="games.length === 0">No games available</div>
     <div class="game" *ngFor="let game of games">
     <span class="winner-name">
@@ -46,10 +58,9 @@
     </span> hat <span class="loser-name">{{getLoserName(game)}}</span> mit <span class="winner-score">{{getWinnerScore(game)}}</span>
       zu <span class="loser-score">{{getLoserScore(game)}}</span> geschlagen.
     </div>
-  </ng-container>
+  </div>
 
 </div>
-
 
 
 <ng-template #noData>0 %</ng-template>

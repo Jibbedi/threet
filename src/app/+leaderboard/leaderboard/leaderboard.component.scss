@@ -24,6 +24,11 @@ h3 {
   }
 }
 
+.game-wrapper.two-columns {
+  -webkit-column-count: 2;
+  column-count: 2;
+}
+
 .leaderboard {
   flex: 1;
   padding: 5px;
@@ -61,6 +66,29 @@ h3 {
 
 .loser-name {
   color: #d63031;
+}
+
+.history {
+  display: flex;
+  justify-content: center;
+}
+
+.history-marker {
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+
+  &:not(:last-child) {
+    margin-right: 2px;
+  }
+}
+
+.history-marker.win {
+  background: #00b894;
+}
+
+.history-marker.lose {
+  background: #d63031;
 }
 
 
