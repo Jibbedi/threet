@@ -139,3 +139,8 @@ exports.calculateWins = functions.firestore
   });
 
 
+exports.preMatchInfo = functions.https.onCall((data, context) => {
+  const expectedWinFirstPlayer = Math.round(EloRating.expected(data.firstPlayerEloRank, data.secondPlayerEloRank) * 100);
+  return {expectedWinFirstPlayer, expectedWinSecondPlayer: 100 - expectedWinFirstPlayer};
+});
+

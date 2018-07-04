@@ -8,6 +8,7 @@ import {NewComponent} from './+game/new/new.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ScoreComponent} from './+game/score/score.component';
 import {LeaderboardComponent} from './+leaderboard/leaderboard/leaderboard.component';
+import {AngularFireFunctionsModule} from 'angularfire2/functions';
 
 
 const routes: Routes = [
@@ -53,7 +54,8 @@ const routes: Routes = [
       storageBucket: 'threet-c189b.appspot.com',
       messagingSenderId: '1095738527709'
     }),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireFunctionsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

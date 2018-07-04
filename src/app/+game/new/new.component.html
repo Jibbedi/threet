@@ -15,29 +15,36 @@
          [ngClass]="{'slide-in': selectedPlayers[0]}">
       <ng-container *ngIf="selectedPlayers[0] && selectedPlayers[0].name">
         {{selectedPlayers[0].name}}
+        <div class="first-percentage" *ngIf="expectedWinFirstPlayer">
+          {{expectedWinFirstPlayer}} %
+        </div>
       </ng-container>
     </div>
 
-      <div class="vs-status align-center" [ngClass]="{'has-selection': this.selectedPlayers[0] || this.selectedPlayers[1]}">
-        <ng-container *ngIf="!this.selectedPlayers[0] && !this.selectedPlayers[1]">
-          Kontrahenten wählen
+    <div class="vs-status align-center"
+         [ngClass]="{'has-selection': this.selectedPlayers[0] || this.selectedPlayers[1]}">
+      <ng-container *ngIf="!this.selectedPlayers[0] && !this.selectedPlayers[1]">
+        Kontrahenten wählen
+      </ng-container>
+      <div class="vs-text" [ngClass]="{'spin-in': allPlayersAreSelected()}">
+        <ng-container *ngIf="allPlayersAreSelected() && !showStartMatch">
+          VS
         </ng-container>
-          <div class="vs-text" [ngClass]="{'spin-in': allPlayersAreSelected()}">
-            <ng-container *ngIf="allPlayersAreSelected() && !showStartMatch">
-              VS
-            </ng-container>
-          </div>
-        <div class="start-match"
-             *ngIf="allPlayersAreSelected() && showStartMatch"
-            (click)="startMatch()">
-          {{loading ? 'Wird gestartet...' : '🏓 MATCH STARTEN'}}
-        </div>
+      </div>
+      <div class="start-match"
+           *ngIf="allPlayersAreSelected() && showStartMatch"
+           (click)="startMatch()">
+        {{loading ? 'Wird gestartet...' : '🏓 MATCH STARTEN'}}
+      </div>
     </div>
 
     <div class="vs-player player-2 align-right"
          [ngClass]="{'slide-in': selectedPlayers[1]}">
       <ng-container *ngIf="selectedPlayers[1] && selectedPlayers[1].name">
         {{selectedPlayers[1].name}}
+        <div class="second-percentage" *ngIf="expectedWinSecondPlayer">
+          {{expectedWinSecondPlayer}} %
+        </div>
       </ng-container>
     </div>
 

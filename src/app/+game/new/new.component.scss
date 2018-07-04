@@ -54,7 +54,6 @@ h2 {
   flex: 1;
   margin: 0 200px;
 
-
   .vs-player {
     font-size: 12em;
     font-weight: bold;
@@ -74,7 +73,7 @@ h2 {
 
     &.slide-in {
       transform: translateX(0px);
-      text-shadow: 0 0 0 rgba(255,255,255,0);
+      text-shadow: 0 0 0 rgba(255, 255, 255, 0);
       visibility: visible;
     }
   }
@@ -89,9 +88,9 @@ h2 {
       height: 150px;
     }
     .vs-text {
-    visibility: hidden;
-    transition: 0.15s all ease-out;
-    transform: rotateZ(-220deg);
+      visibility: hidden;
+      transition: 0.15s all ease-out;
+      transform: rotateZ(-220deg);
 
       &.spin-in {
         visibility: visible;
@@ -109,6 +108,18 @@ h2 {
   }
 }
 
+.first-percentage {
+  font-size: 70px;
+  position: absolute;
+  bottom: -87px;
+}
+
+.second-percentage {
+  font-size: 70px;
+  position: absolute;
+  top: -40px;
+  right: 0px;
+}
 
 
 

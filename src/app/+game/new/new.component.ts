@@ -1,10 +1,11 @@
-import {Component, HostListener} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import {Player} from '../../models/Player';
 import {Game} from '../../models/Game';
-import {Sounds} from "../../../assets/sounds";
+import {Sounds} from '../../../assets/sounds';
+import {AngularFireFunctions} from 'angularfire2/functions';
 
 @Component({
   selector: 'app-new',
@@ -19,7 +20,11 @@ export class NewComponent {
   showStartMatch = false;
   loading = false;
 
+  expectedWinFirstPlayer: number;
+  expectedWinSecondPlayer: number;
+
   constructor(private db: AngularFirestore,
+              private functions: AngularFireFunctions,
               private router: Router) {
     this.player$ = this.db.collection<Player>('players').valueChanges();
   }
@@ -36,6 +41,17 @@ export class NewComponent {
     } else {
       this.selectedPlayers[index] = null;
     }
+
+
+    if (this.allPlayersAreSelected()) {
+      const callable = this.functions.httpsCallable('preMatchInfo');
+      callable({firstPlayerEloRank: this.selectedPlayers[0].eloRank, secondPlayerEloRank: this.selectedPlayers[1].eloRank}).subscribe(v => {
+        console.log(v);
+        this.expectedWinFirstPlayer = v.expectedWinFirstPlayer;
+        this.expectedWinSecondPlayer = v.expectedWinSecondPlayer;
+      });
+    }
+
   }
 
   isSelected(player: Player, index: number) {
