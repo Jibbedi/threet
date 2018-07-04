@@ -75,17 +75,20 @@ exports.calculateWins = functions.firestore
 
           snapshots.forEach(snapShot => snapShot.docs.forEach(doc => {
             const g = doc.data();
-            if (g.firstPlayerScore > g.secondPlayerScore) {
-              if (g.firstPlayerId === id) {
-                totalWins++;
+
+            if (g.done) {
+              if (g.firstPlayerScore > g.secondPlayerScore) {
+                if (g.firstPlayerId === id) {
+                  totalWins++;
+                } else {
+                  totalLoses++;
+                }
               } else {
-                totalLoses++;
-              }
-            } else {
-              if (g.secondPlayerId === id) {
-                totalWins++;
-              } else {
-                totalLoses++;
+                if (g.secondPlayerId === id) {
+                  totalWins++;
+                } else {
+                  totalLoses++;
+                }
               }
             }
           }));
