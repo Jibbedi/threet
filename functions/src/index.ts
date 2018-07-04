@@ -72,6 +72,8 @@ exports.calculateWins = functions.firestore
         .then(snapshots => {
           let totalWins = 0;
           let totalLoses = 0;
+          let totalScoreFor = 0;
+          let totalScoreAgainst = 0;
 
           snapshots.forEach(snapShot => snapShot.docs.forEach(doc => {
             const g = doc.data();
@@ -90,6 +92,15 @@ exports.calculateWins = functions.firestore
                   totalLoses++;
                 }
               }
+
+              if (g.firstPlayerId === id) {
+                totalScoreFor += g.firstPlayerScore;
+                totalScoreAgainst += g.secondPlayerScore;
+              } else {
+                totalScoreFor += g.secondPlayerScore;
+                totalScoreAgainst += g.firstPlayerScore;
+              }
+
             }
           }));
 
@@ -97,6 +108,9 @@ exports.calculateWins = functions.firestore
           return admin.firestore().collection('players').doc(id).update({
             totalWins,
             totalLoses,
+            totalScoreFor,
+            totalScoreAgainst,
+            totalScoreDiff: totalScoreFor - totalScoreAgainst,
             winPercentage: totalWins / (totalWins + totalLoses)
           });
 

@@ -5,5 +5,8 @@ export interface Player {
   totalLoses: number;
   winPercentage: number;
   streak: number;
-  eloRank : number;
+  eloRank: number;
+  totalScoreFor: number;
+  totalScoreAgainst: number;
+  totalScoreDiff: number;
 }
