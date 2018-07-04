@@ -11,7 +11,7 @@
   <div class="result">
     <div class="player" [class.active]="isActivePlayer(game.firstPlayerId)" (click)="setToActive(game.firstPlayerId)">
       <div class="name">
-        {{(firstPlayer | async)?.name}}
+        {{game.firstPlayerName}}
       </div>
       <div class="score">
         {{game.firstPlayerScore}}
@@ -38,7 +38,7 @@
     </div>
     <div class="player" [class.active]="isActivePlayer(game.secondPlayerId)" (click)="setToActive(game.secondPlayerId)">
       <div class="name">
-        {{(secondPlayer | async)?.name}}
+        {{game.secondPlayerName}}
       </div>
       <div class="score">
         {{game.secondPlayerScore}}

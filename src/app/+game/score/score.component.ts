@@ -3,8 +3,6 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Game} from '../../models/Game';
 import {WINNING_GAME_POINTS} from '../../constants/config';
-import {Observable} from 'rxjs';
-import {Player} from '../../models/Player';
 
 @Component({
   selector: 'app-score',
@@ -16,9 +14,7 @@ export class ScoreComponent {
   game: Game;
 
   activePlayer: string;
-
-  firstPlayer: Observable<Player>;
-  secondPlayer: Observable<Player>;
+  initialActivePlayer: string;
 
   @HostListener('document:keydown', ['$event'])
   handleKeydown($event: KeyboardEvent) {
@@ -39,7 +35,7 @@ export class ScoreComponent {
       this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0);
     }
 
-    !this.isGameFinished() && this.swapActivePlayer();
+    !this.isGameFinished() && this.calculateActivePlayer();
   }
 
   constructor(private route: ActivatedRoute, private db: AngularFirestore, private router: Router) {
@@ -47,8 +43,6 @@ export class ScoreComponent {
       const {gameId} = params;
       this.db.collection<Game[]>('games').doc<Game>(gameId).valueChanges().subscribe(game => {
         game.gameId = gameId;
-        this.firstPlayer = this.db.collection('players').doc<Player>(game.firstPlayerId).valueChanges();
-        this.secondPlayer = this.db.collection('players').doc<Player>(game.secondPlayerId).valueChanges();
         this.game = game;
       });
     });
@@ -58,14 +52,15 @@ export class ScoreComponent {
     return playerId === this.activePlayer;
   }
 
-  swapActivePlayer() {
-    if ((this.game.secondPlayerScore + this.game.firstPlayerScore) % 2 === 0) {
-      this.activePlayer = this.game.firstPlayerId === this.activePlayer ? this.game.secondPlayerId : this.game.firstPlayerId;
-    }
+  calculateActivePlayer() {
+    const totalPoints = this.game.secondPlayerScore + this.game.firstPlayerScore;
+    const serviceChanges = Math.floor(totalPoints / 2);
+    this.activePlayer = serviceChanges % 2 === 0 ? this.initialActivePlayer : (this.initialActivePlayer === this.game.firstPlayerId ? this.game.secondPlayerId : this.game.firstPlayerId);
   }
 
   setToActive(playerId: string) {
     this.activePlayer = playerId;
+    this.initialActivePlayer = playerId;
   }
 
   isGameFinished() {
