@@ -6,6 +6,7 @@ import {Player} from '../../models/Player';
 import {Game} from '../../models/Game';
 import {Sounds} from '../../../assets/sounds';
 import {AngularFireFunctions} from 'angularfire2/functions';
+import {STAGE} from '../../constants/config';
 
 @Component({
   selector: 'app-new',
@@ -26,7 +27,7 @@ export class NewComponent {
   constructor(private db: AngularFirestore,
               private functions: AngularFireFunctions,
               private router: Router) {
-    this.player$ = this.db.collection<Player>('players').valueChanges();
+    this.player$ = this.db.collection<Player>(STAGE + 'players').valueChanges();
   }
 
   selectPlayer(player: Player, index: number) {
@@ -82,7 +83,7 @@ export class NewComponent {
       timestamp: new Date().getTime()
     };
 
-    this.db.collection<Game>('games').add(game as Game).then(docRef => {
+    this.db.collection<Game>(STAGE + 'games').add(game as Game).then(docRef => {
       this.router.navigateByUrl('game/score/' + docRef.id);
     });
   }

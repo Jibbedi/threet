@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Game} from '../../models/Game';
 import {Player} from '../../models/Player';
 import timeago from 'timeago.js';
+import {STAGE} from '../../constants/config';
 
 @Component({
   selector: 'app-leaderboard',
@@ -22,8 +23,8 @@ export class LeaderboardComponent implements OnInit {
   longestCurrentDroughtPlayer: Player;
 
   constructor(private db: AngularFirestore) {
-    this.games$ = this.db.collection<Game>('games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
-    this.db.collection<Player>('players').valueChanges().subscribe(players => {
+    this.games$ = this.db.collection<Game>(STAGE + 'games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
+    this.db.collection<Player>(STAGE + 'players').valueChanges().subscribe(players => {
 
 
       this.longestSteakPlayer = players.filter(player => !!player.longestPositiveStreak).sort((a, b) => a.longestPositiveStreak > b.longestPositiveStreak ? -1 : a.longestPositiveStreak === b.longestPositiveStreak ? 0 : 1)[0];

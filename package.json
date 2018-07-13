@@ -17,7 +17,7 @@
     "@angular/core": "^6.0.3",
     "@angular/forms": "^6.0.3",
     "@angular/http": "^6.0.3",
-    "timeago.js" : "^3.0.2",
+    "timeago.js": "^3.0.2",
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
@@ -27,7 +27,6 @@
     "firebase-admin": "^5.12.1",
     "firebase-functions": "^1.1.0",
     "rxjs": "^6.0.0",
-    "timeago.js": "^3.0.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

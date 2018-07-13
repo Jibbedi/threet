@@ -2,7 +2,7 @@ import {Component, HostListener} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Game} from '../../models/Game';
-import {WINNING_GAME_POINTS} from '../../constants/config';
+import {STAGE, WINNING_GAME_POINTS} from '../../constants/config';
 
 @Component({
   selector: 'app-score',
@@ -41,7 +41,7 @@ export class ScoreComponent {
   constructor(private route: ActivatedRoute, private db: AngularFirestore, private router: Router) {
     this.route.params.subscribe(params => {
       const {gameId} = params;
-      this.db.collection<Game[]>('games').doc<Game>(gameId).valueChanges().subscribe(game => {
+      this.db.collection<Game[]>(STAGE + 'games').doc<Game>(gameId).valueChanges().subscribe(game => {
         game.gameId = gameId;
         this.game = game;
       });
@@ -85,7 +85,7 @@ export class ScoreComponent {
     }
     this.game.timestamp = Date.now();
     this.game.done = true;
-    this.db.collection<Game[]>('games').doc<Game>(this.game.gameId).set(this.game);
+    this.db.collection<Game[]>(STAGE + 'games').doc<Game>(this.game.gameId).set(this.game);
     this.router.navigateByUrl('leaderboard');
   }
 }

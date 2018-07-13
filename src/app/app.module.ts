@@ -9,6 +9,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ScoreComponent} from './+game/score/score.component';
 import {LeaderboardComponent} from './+leaderboard/leaderboard/leaderboard.component';
 import {AngularFireFunctionsModule} from 'angularfire2/functions';
+import {AdminComponent} from './+admin/leaderboard/admin.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,10 @@ const routes: Routes = [
     path: '',
     redirectTo: '/game/new',
     pathMatch: 'full'
+  },
+  {
+    path: 'admin',
+    component: AdminComponent
   },
   {
     path: 'game',
@@ -41,6 +46,7 @@ const routes: Routes = [
     AppComponent,
     NewComponent,
     ScoreComponent,
+    AdminComponent,
     LeaderboardComponent
   ],
   imports: [
