@@ -8,4 +8,8 @@ export interface Game {
   secondPlayerScore: number;
   timestamp: number;
   done: boolean;
+  mode: 'regular' | 'knockout' | 'league';
+  shouldEffectRank: boolean;
+  shouldEffectElo: boolean;
+  tournamentId: string;
 }

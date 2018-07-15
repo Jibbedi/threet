@@ -1,0 +1,37 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+h2 {
+  color: #64b39e;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+.player-selection {
+  column-count: 3;
+}
+
+.player {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 15px;
+  width: 100px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.player:hover:not(.disabled) {
+  background: #3e8371;
+}
+
+.player.selected {
+  background: white;
+  color: #2d3436;
+}

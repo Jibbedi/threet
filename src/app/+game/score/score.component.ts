@@ -16,6 +16,8 @@ export class ScoreComponent {
   activePlayer: string;
   initialActivePlayer: string;
 
+  tournamentId: string;
+
   @HostListener('document:keydown', ['$event'])
   handleKeydown($event: KeyboardEvent) {
 
@@ -39,11 +41,17 @@ export class ScoreComponent {
   }
 
   constructor(private route: ActivatedRoute, private db: AngularFirestore, private router: Router) {
+    this.route.queryParams.subscribe(queryParams => {
+      this.tournamentId = queryParams.tournamentId;
+    });
+
     this.route.params.subscribe(params => {
       const {gameId} = params;
       this.db.collection<Game[]>(STAGE + 'games').doc<Game>(gameId).valueChanges().subscribe(game => {
         game.gameId = gameId;
         this.game = game;
+        this.game.firstPlayerScore = this.game.firstPlayerScore || 0;
+        this.game.secondPlayerScore = this.game.secondPlayerScore || 0;
       });
     });
   }
@@ -86,6 +94,12 @@ export class ScoreComponent {
     this.game.timestamp = Date.now();
     this.game.done = true;
     this.db.collection<Game[]>(STAGE + 'games').doc<Game>(this.game.gameId).set(this.game);
-    this.router.navigateByUrl('leaderboard');
+
+    if (!this.tournamentId) {
+      this.router.navigateByUrl('leaderboard');
+    } else {
+      this.router.navigate(['tournament', 'overview', this.tournamentId]);
+    }
+
   }
 }

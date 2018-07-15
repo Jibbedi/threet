@@ -1,0 +1,34 @@
+<div class="stage-wrapper">
+  <ng-container *ngFor="let stage of treeView; let index = index">
+    <div class="stage">
+      <div class="stage-name">{{stage.name}}</div>
+      <div class="game" *ngFor="let gameId of stage.games">
+        <div class="player-wrapper"
+             [class.out]="getGameForId(gameId)?.firstPlayerScore < getGameForId(gameId)?.secondPlayerScore">
+          <div class="player">
+            <div class="name">
+              {{getGameForId(gameId)?.firstPlayerName}}
+            </div>
+            <div class="score" *ngIf="getGameForId(gameId)?.firstPlayerScore !== undefined">
+              {{getGameForId(gameId)?.firstPlayerScore}}
+            </div>
+          </div>
+        </div>
+        <div class="vs">
+          vs
+        </div>
+        <div class="player-wrapper"
+             [class.out]="getGameForId(gameId)?.firstPlayerScore > getGameForId(gameId)?.secondPlayerScore">
+          <div class="player">
+            <div class="name">
+              {{getGameForId(gameId)?.secondPlayerName}}
+            </div>
+            <div class="score" *ngIf="getGameForId(gameId)?.secondPlayerScore !== undefined">
+              {{getGameForId(gameId)?.secondPlayerScore}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

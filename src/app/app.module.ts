@@ -10,6 +10,10 @@ import {ScoreComponent} from './+game/score/score.component';
 import {LeaderboardComponent} from './+leaderboard/leaderboard/leaderboard.component';
 import {AngularFireFunctionsModule} from 'angularfire2/functions';
 import {AdminComponent} from './+admin/leaderboard/admin.component';
+import {CreateTournamentComponent} from './+tournament/create-tournament/create-tournament.component';
+import {PlayerService} from './services/player.service';
+import {KnockoutPhaseTreeComponent} from './+tournament/knockout-phase-tree/knockout-phase-tree.component';
+import {TournamentOverviewComponent} from './+tournament/tournament-overview/tournament-overview.component';
 
 
 const routes: Routes = [
@@ -21,6 +25,19 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'tournament',
+    children: [
+      {
+        path: 'create',
+        component: CreateTournamentComponent
+      },
+      {
+        path: 'overview/:tournamentId',
+        component: TournamentOverviewComponent
+      }
+    ]
   },
   {
     path: 'game',
@@ -46,8 +63,11 @@ const routes: Routes = [
     AppComponent,
     NewComponent,
     ScoreComponent,
+    CreateTournamentComponent,
     AdminComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    KnockoutPhaseTreeComponent,
+    TournamentOverviewComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +83,7 @@ const routes: Routes = [
     AngularFirestoreModule,
     AngularFireFunctionsModule
   ],
-  providers: [],
+  providers: [PlayerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
