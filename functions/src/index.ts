@@ -324,7 +324,7 @@ exports.calculateTournamentDev = functions.firestore
     return calculateTournament(event, 'dev_');
   });
 
-exports.createKnockoutTournamentDev = functions.firestore
+exports.createKnockoutTournamentProd = functions.firestore
   .document('tournaments/{tournamentId}')
   .onCreate(event => {
     return createKnockoutTournament(event);
