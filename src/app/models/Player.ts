@@ -12,4 +12,5 @@ export interface Player {
   totalScoreAgainst: number;
   totalScoreDiff: number;
   history: boolean[];
+  tournamentWins: number;
 }

@@ -1,0 +1,12 @@
+<h2>Create tournament</h2>
+
+<div class="button" [class.disabled]="!isNumberOfPlayersValid()" (click)="createTournament()">Create Tourament</div>
+
+
+<div>Select players</div>
+<div class="player-selection">
+  <div class="player" (click)="selectPlayer(player)" [class.selected]="isSelected(player)"
+       *ngFor="let player of playerService.players">
+    {{player.name}}
+  </div>
+</div>

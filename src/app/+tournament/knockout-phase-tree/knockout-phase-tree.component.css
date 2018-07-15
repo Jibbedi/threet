@@ -1,0 +1,58 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stage-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stage-name {
+  margin-bottom: 20px;
+}
+
+.game-wrapper, .stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 60px;
+}
+
+.player-wrapper.out {
+  opacity: 0.4;
+}
+
+.player {
+  display: flex;
+  height: 50px;
+  color: #2d3436;
+}
+
+.name {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  border-right: 5px;
+}
+
+.score {
+  margin-left: 2px;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.vs {
+  margin: 10px 0;
+}
