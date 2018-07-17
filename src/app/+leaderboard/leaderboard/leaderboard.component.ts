@@ -54,8 +54,16 @@ export class LeaderboardComponent implements OnInit {
     return game.firstPlayerScore > game.secondPlayerScore ? game.firstPlayerName : game.secondPlayerName;
   }
 
+  getWinnerId(game: Game) {
+    return game.firstPlayerScore > game.secondPlayerScore ? game.firstPlayerId : game.secondPlayerId;
+  }
+
   getLoserName(game: Game) {
     return game.firstPlayerScore > game.secondPlayerScore ? game.secondPlayerName : game.firstPlayerName;
+  }
+
+  getLoserId(game: Game) {
+    return game.firstPlayerScore > game.secondPlayerScore ? game.secondPlayerId : game.firstPlayerId;
   }
 
   getPercentage(percentage: number) {
