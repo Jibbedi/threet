@@ -20,3 +20,7 @@ body, html {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.clickable {
+  cursor: pointer;
+}

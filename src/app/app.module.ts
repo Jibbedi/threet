@@ -14,6 +14,7 @@ import {CreateTournamentComponent} from './+tournament/create-tournament/create-
 import {PlayerService} from './services/player.service';
 import {KnockoutPhaseTreeComponent} from './+tournament/knockout-phase-tree/knockout-phase-tree.component';
 import {TournamentOverviewComponent} from './+tournament/tournament-overview/tournament-overview.component';
+import {ProfileComponent} from './+user/profile/profile.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,15 @@ const routes: Routes = [
       {
         path: 'overview/:tournamentId',
         component: TournamentOverviewComponent
+      }
+    ]
+  },
+  {
+    path: 'user',
+    children: [
+      {
+        path: 'profile/:playerId',
+        component: ProfileComponent
       }
     ]
   },
@@ -64,6 +74,7 @@ const routes: Routes = [
     NewComponent,
     ScoreComponent,
     CreateTournamentComponent,
+    ProfileComponent,
     AdminComponent,
     LeaderboardComponent,
     KnockoutPhaseTreeComponent,

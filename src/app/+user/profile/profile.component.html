@@ -1,0 +1,80 @@
+<h3 *ngIf="player">{{player?.name}} · Elo: {{player?.eloRank}} · Rank: {{rank}} </h3>
+
+<div class="data-wrapper">
+  <div>
+    <div class="charts">
+      <div class="block">
+        <div class="win-lose">
+          <canvas #winLoseChart height="100%" width="100%"></canvas>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="win-lose">
+          <canvas #scoreChart height="100%" width="100%"></canvas>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="summary">
+        <div class="block summary-panel">
+          <div class="favorite">Favorite Opponent</div>
+          <div class="clickable" [routerLink]="['/user','profile', favoriteOpponent?.id]">{{favoriteOpponent?.name}}
+          </div>
+          <div>{{favoriteOpponent?.wins}} wins</div>
+        </div>
+
+        <div class="block summary-panel">
+          <div class="bogey">Bogey Opponent</div>
+          <div class="clickable" [routerLink]="['/user','profile', leastFavoriteOpponent?.id]">
+            {{leastFavoriteOpponent?.name}}
+          </div>
+          <div>{{leastFavoriteOpponent?.loses}} loses</div>
+        </div>
+
+        <div class="block summary-panel">
+          <div class="most-matches">Most matches vs</div>
+          <div class="clickable" [routerLink]="['/user','profile', mostPlayedAgainst?.id]">{{mostPlayedAgainst?.name}}
+          </div>
+          <div>{{mostPlayedAgainst?.wins + mostPlayedAgainst?.loses}} games</div>
+        </div>
+      </div>
+    </div>
+    <div class="map">
+      <table>
+        <thead>
+        <th>Opponent</th>
+        <th>Games</th>
+        <th>Wins</th>
+        <th>Loses</th>
+        <th>%</th>
+        <th>+/-</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let opponent of opponentMap">
+          <td class="clickable" [routerLink]="['/user','profile', opponent.id]">{{opponent.name}}</td>
+          <td>{{opponent.wins + opponent.loses}}</td>
+          <td>{{opponent.wins}}</td>
+          <td>{{opponent.loses}}</td>
+          <td>{{getPercentage(opponent)}}</td>
+          <td>{{opponent.scoreFor - opponent.scoreAgainst}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="history-wrapper">
+    <div class="history" [style.width.px]="historyWidth">
+      <div class="block">
+        <canvas #historyChart height="100%" width="100%"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
