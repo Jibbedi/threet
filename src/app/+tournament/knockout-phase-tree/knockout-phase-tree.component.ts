@@ -4,7 +4,7 @@ import {Game} from '../../models/Game';
 @Component({
   selector: 'app-knockout-phase-tree',
   templateUrl: './knockout-phase-tree.component.html',
-  styleUrls: ['./knockout-phase-tree.component.css']
+  styleUrls: ['./knockout-phase-tree.component.scss']
 })
 export class KnockoutPhaseTreeComponent {
 

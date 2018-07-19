@@ -7,7 +7,7 @@ import {STAGE, WINNING_GAME_POINTS} from '../../constants/config';
 @Component({
   selector: 'app-score',
   templateUrl: './score.component.html',
-  styleUrls: ['./score.component.css']
+  styleUrls: ['./score.component.scss']
 })
 export class ScoreComponent {
 
@@ -26,17 +26,35 @@ export class ScoreComponent {
     }
 
     if ($event.code === 'ArrowUp') {
-      if (this.isGameFinished()) return;
-      this.game.secondPlayerScore = this.game.secondPlayerScore + 1;
+      this.scoreUpSecondPlayer();
     } else if ($event.code === 'ArrowDown') {
-      this.game.secondPlayerScore = Math.max(this.game.secondPlayerScore - 1, 0);
+      this.scoreDownSecondPlayer();
     } else if ($event.code === 'KeyW') {
-      if (this.isGameFinished()) return;
-      this.game.firstPlayerScore = this.game.firstPlayerScore + 1;
+      this.scoreUpFirstPlayer();
     } else if ($event.code === 'KeyS') {
-      this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0);
+      this.scoreDownFirstPlayer();
     }
+  }
 
+  scoreUpFirstPlayer() {
+    if (this.isGameFinished()) return;
+    this.game.firstPlayerScore = this.game.firstPlayerScore + 1;
+    !this.isGameFinished() && this.calculateActivePlayer();
+  }
+
+  scoreDownFirstPlayer() {
+    this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0);
+    !this.isGameFinished() && this.calculateActivePlayer();
+  }
+
+  scoreUpSecondPlayer() {
+    if (this.isGameFinished()) return;
+    this.game.secondPlayerScore = this.game.secondPlayerScore + 1;
+    !this.isGameFinished() && this.calculateActivePlayer();
+  }
+
+  scoreDownSecondPlayer() {
+    this.game.secondPlayerScore = Math.max(this.game.secondPlayerScore - 1, 0);
     !this.isGameFinished() && this.calculateActivePlayer();
   }
 

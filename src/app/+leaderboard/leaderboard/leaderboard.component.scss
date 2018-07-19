@@ -1,71 +1,94 @@
 :host {
-  display: flex;
   width: 100vw;
   height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  font-size: 20px;
+  font-size: 14px;
+}
+
+.new-game-button {
+  padding: 0 20px;
+  position: absolute;
 }
 
 h3 {
   color: #64b39e;
   text-align: center;
-  font-size: 1.7em;
+  font-size: 1em;
 }
 
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .recent-games {
   padding: 5px;
   flex: 1;
   text-align: center;
   overflow-y: auto;
 
-  .game {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 5px;
+  .game-wrapper {
+    &.two-columns {
+      -webkit-column-count: 2;
+      column-count: 2;
+    }
+    .game {
+      display: flex;
+      align-items: baseline;
+      .text {
+        line-height: 1;
+        span {
+          font-size: 0.7em;
+        }
+      };
+    }
   }
 }
 
 .time-ago {
-  font-size: 14px;
+  font-size: 0.7em;
   opacity: 0.6;
   margin-left: 6px;
 }
 
-.game-wrapper.two-columns {
-  -webkit-column-count: 2;
-  column-count: 2;
-}
+.rank-wrapper {
+  z-index: 1;
+  max-height: calc(100vh / 2);
+  overflow: auto;
 
-.leaderboard {
-  flex: 1;
-  padding: 5px;
+  .leaderboard {
+    display: block;
+    flex: 1;
+    padding: 5px;
 
-  th {
-    padding: 0px 15px;
-    color: white;
-  }
+    th {
+      font-size: 0.6em;
+      padding: 0px 5px;
+      color: white;
+    }
 
-  tr {
+    tr {
 
-    td {
-      margin-right: 10px;
-      padding: 4px 15px;
-      text-align: center;
-      background: white;
-      color: #3a4a46;
-      border-radius: 2px;
+      td {
+        margin-right: 2px;
+        padding: 2px 4px;
+        text-align: center;
+        background: white;
+        color: #3a4a46;
+        border-radius: 2px;
+        font-size: 0.7em;
 
-      &.rank {
-        &.first {
-          color: white;
-          background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
-          radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #ae9a24 62.5%, #5d4a1f 100%);
+        &.rank {
+          &.first {
+            color: white;
+            background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+            radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #ae9a24 62.5%, #5d4a1f 100%);
+          }
         }
       }
     }
-  }
 
+  }
 }
 
 .winner-name {
@@ -99,12 +122,72 @@ h3 {
   background: #d63031;
 }
 
-.rank-wrapper {
+
+
+.streaks-container {
+  width: 100vw;
   display: flex;
+  .streaks {
+    margin: 0px 10px;
+    font-size: 0.7em;
+    text-align: center;
+  }
+  .streaks-spacer {
+    flex: 1;
+  }
 }
 
-.streaks {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
+@media only screen and (min-width: 640px) {
+
+  .streaks-container {
+    position: absolute;
+  }
+
+  .rank-wrapper {
+    .leaderboard {
+      tr {
+        td {
+          padding: 2px 10px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+
+  h3 {
+    font-size: 1.7em;
+  }
+  .rank-wrapper {
+    .leaderboard {
+      th {
+        font-size: 1em;
+      }
+      tr {
+        td {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+
+
+  .recent-games {
+    .game-wrapper {
+      .game {
+        margin-bottom: 5px;
+        .text {
+          span {
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+  .streaks-container {
+    .streaks {
+      font-size: 1.5em;
+    }
+  }
 }

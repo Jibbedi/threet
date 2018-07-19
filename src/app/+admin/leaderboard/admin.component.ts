@@ -4,7 +4,7 @@ import {AngularFireFunctions} from 'angularfire2/functions';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
 

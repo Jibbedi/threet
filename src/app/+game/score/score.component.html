@@ -16,20 +16,26 @@
       <div class="score">
         {{game.firstPlayerScore}}
       </div>
-      <div class="control-hint">
-        <div class="key">
-          W
+      <div class="controls">
+        <div (click)="scoreUpFirstPlayer(); $event.stopPropagation()">
+          <div class="control-hint">
+            <div class="key">
+              W
+            </div>
+            <div class="description">
+              Punkt +
+            </div>
+          </div>
         </div>
-        <div class="description">
-          Punkt +
-        </div>
-      </div>
-      <div class="control-hint">
-        <div class="key">
-          S
-        </div>
-        <div class="description">
-          Punkt -
+        <div (click)="scoreDownFirstPlayer(); $event.stopPropagation()">
+          <div class="control-hint">
+            <div class="key">
+              S
+            </div>
+            <div class="description">
+              Punkt -
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -43,20 +49,26 @@
       <div class="score">
         {{game.secondPlayerScore}}
       </div>
-      <div class="control-hint">
-        <div class="key">
-          ↑
+      <div class="controls">
+        <div (click)="scoreUpSecondPlayer(); $event.stopPropagation()">
+          <div class="control-hint">
+            <div class="key">
+              ↑
+            </div>
+            <div class="description">
+              Punkt +
+            </div>
+          </div>
         </div>
-        <div class="description">
-          Punkt +
-        </div>
-      </div>
-      <div class="control-hint">
-        <div class="key">
-          ↓
-        </div>
-        <div class="description">
-          Punkt -
+        <div (click)="scoreDownSecondPlayer(); $event.stopPropagation()">
+          <div class="control-hint">
+            <div class="key">
+              ↓
+            </div>
+            <div class="description">
+              Punkt -
+            </div>
+          </div>
         </div>
       </div>
     </div>
