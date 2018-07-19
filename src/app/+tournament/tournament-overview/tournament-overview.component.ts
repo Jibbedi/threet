@@ -39,21 +39,44 @@ export class TournamentOverviewComponent {
       });
   }
 
+  shouldDisplayKnockoutView() {
+    return this.tournament && this.tournament.mode === 'knockout';
+  }
+
   nextMatch() {
-    const currentStage = Object.keys(this.tournament.stages)
-      .map(key => parseInt(key, 10))
-      .sort((a, b) => a - b)
-      .map(key => this.tournament.stages[key])
-      .find(stage => stage
-        .map(gameId => this.games.find(game => game.gameId === gameId))
-        .some(game => !game.done));
+
+    let nextGame;
+
+    if (this.tournament.mode === 'league') {
+      nextGame = this.tournament
+        .games
+        .map(gameID => this.games.find(game => game.gameId === gameID))
+        .find(game => !game.done);
+    } else {
+      const currentStage = Object.keys(this.tournament.stages)
+        .map(key => parseInt(key, 10))
+        .sort((a, b) => a - b)
+        .map(key => this.tournament.stages[key])
+        .find(stage => stage
+          .map(gameId => this.games.find(game => game.gameId === gameId))
+          .some(game => !game.done));
 
 
-    const nextGame = currentStage.map(gameId => this.games.find(game => game.gameId === gameId)).find(game => !game.done);
+      nextGame = currentStage.map(gameId => this.games.find(game => game.gameId === gameId)).find(game => !game.done);
+    }
 
-    this.router.navigate(['game', 'score', nextGame.gameId], {
+
+    this.routeToGame(nextGame.gameId);
+
+  }
+
+  startGame(id: string) {
+    this.routeToGame(id);
+  }
+
+  private routeToGame(id: string) {
+    this.router.navigate(['game', 'score', id], {
       queryParams: {tournamentId: this.tournamentId}
     });
-
   }
 }

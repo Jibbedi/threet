@@ -99,7 +99,10 @@
       <div *ngIf="games.length === 0">No games available</div>
       <div class="game" *ngFor="let game of games">
         <div class="text">
-          <span *ngIf="game.tournamentId">🏆</span>
+          <span class="clickable" [routerLink]="['/tournament','overview', game.tournamentId]">
+        <span *ngIf="game.mode === 'knockout'">🏆</span>
+        <span *ngIf="game.mode === 'league'">🥇</span>
+        </span>
           <span class="winner-name clickable" [routerLink]="['/user','profile', getWinnerId(game)]">
             {{getWinnerName(game)}}
           </span>

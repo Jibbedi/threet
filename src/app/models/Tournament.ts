@@ -10,4 +10,5 @@ export interface Tournament {
   shouldEffectElo: boolean;
   winnerName?: string;
   winnerId?: string;
+  games?: string[];
 }
