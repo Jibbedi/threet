@@ -11,7 +11,7 @@ import {STAGE} from '../../constants/config';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.css']
+  styleUrls: ['./new.component.scss']
 })
 export class NewComponent {
 

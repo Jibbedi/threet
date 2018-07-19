@@ -1,118 +1,124 @@
-<h3>Ranking</h3>
-<div class="rank-wrapper">
-  <div class="leaderboard">
-    <table>
-      <thead>
-      <th>Rank</th>
-      <th>Name</th>
-      <th>Games</th>
-      <th>Wins</th>
-      <th>Loses</th>
-      <th>Won %</th>
-      <th>+/-</th>
-      <th>Elo</th>
-      <th>Trend</th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let player of ranking; let index = index; let first = first"
-          [ngClass]="{'first': first}">
-        <td class="rank"
-            [ngClass]="{'first': first}">
-          {{index + 1}}
-        </td>
-        <td class="clickable" [routerLink]="['/user','profile', player.id]">{{player.name}}</td>
-        <td>
-          <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
-            {{totalGames}}
-          </ng-container>
-        </td>
-        <td>{{player.totalWins}}</td>
-        <td>{{player.totalLoses}}</td>
-        <td>
-          <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
-            {{percentage}} %
-          </ng-container>
-        </td>
-        <td>{{player.totalScoreDiff}}</td>
-        <td>{{player.eloRank}}</td>
-        <td>
-          <div class="history">
-            <div class="history-marker" *ngFor="let history of player.history" [class.win]="history"
-                 [class.lose]="!history">&nbsp;
-            </div>
-          </div>
-        </td>
-      </tr>
-
-      </tbody>
-    </table>
-  </div>
+<div class="header">
+  <div class="new-game-button" (click)="newGame();">new game</div>
+  <h3>Ranking</h3>
 </div>
 
-<div class="recent-games">
-  <h3>Last 20 games</h3>
-  <div class="game-wrapper" [class.two-columns]="games.length > 10" *ngIf="(games$ | async) as games">
-    <div *ngIf="games.length === 0">No games available</div>
-    <div class="game" *ngFor="let game of games">
-      <div class="text">
-        <span class="clickable" [routerLink]="['/tournament','overview', game.tournamentId]">
+<div class="content">
+  <div class="streaks-container">
+    <div class="streaks streaks-left">
+      <div class="streak-tile">
+        <div class="winner-name">Current longest streak</div>
+        <div class="name clickable" [routerLink]="['/user','profile', longestCurrentStreakPlayer?.id]">
+          {{longestCurrentStreakPlayer?.name}}
+        </div>
+        <div class="streak">{{longestCurrentStreakPlayer?.streak}}</div>
+      </div>
+
+      <div class="streak-tile">
+        <div class="loser-name">Current longest drought</div>
+        <div class="name clickable" [routerLink]="['/user','profile', longestCurrentDroughtPlayer?.id]">
+          {{longestCurrentDroughtPlayer?.name}}
+        </div>
+        <div class="streak">{{longestCurrentDroughtPlayer?.streak}}</div>
+      </div>
+    </div>
+
+    <div class="streaks-spacer">&nbsp;</div>
+
+    <div class="streaks streaks-right">
+      <div class="streak-tile">
+        <div class="winner-name">Longest streak ever</div>
+        <div class="name clickable" [routerLink]="['/user','profile', longestSteakPlayer?.id]">
+          {{longestSteakPlayer?.name}}
+        </div>
+        <div class="streak">{{longestSteakPlayer?.longestPositiveStreak}}</div>
+      </div>
+
+      <div class="streak-tile">
+        <div class="loser-name">Longest drought ever</div>
+        <div class="name clickable" [routerLink]="['/user','profile', longestDroughtPlayer?.id]">
+          {{longestDroughtPlayer?.name}}
+        </div>
+        <div class="streak">{{longestDroughtPlayer?.longestNegativeStreak}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="rank-wrapper">
+    <div class="leaderboard">
+      <table>
+        <thead>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Games</th>
+        <th>Wins</th>
+        <th>Loses</th>
+        <th>Won %</th>
+        <th>+/-</th>
+        <th>Elo</th>
+        <th>Trend</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let player of ranking; let index = index; let first = first"
+            [ngClass]="{'first': first}">
+          <td class="rank"
+              [ngClass]="{'first': first}">
+            {{index + 1}}
+          </td>
+          <td class="clickable" [routerLink]="['/user','profile', player.id]">{{player.name}}</td>
+          <td>
+            <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
+              {{totalGames}}
+            </ng-container>
+          </td>
+          <td>{{player.totalWins}}</td>
+          <td>{{player.totalLoses}}</td>
+          <td>
+            <ng-container *ngIf="getPercentage(player.winPercentage) as percentage; else noData">
+              {{percentage}} %
+            </ng-container>
+          </td>
+          <td>{{player.totalScoreDiff}}</td>
+          <td>{{player.eloRank}}</td>
+          <td>
+            <div class="history">
+              <div class="history-marker" *ngFor="let history of player.history" [class.win]="history"
+                   [class.lose]="!history">&nbsp;
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="recent-games">
+    <h3>Last 20 games</h3>
+    <div class="game-wrapper" [class.two-columns]="games.length > 10" *ngIf="(games$ | async) as games">
+      <div *ngIf="games.length === 0">No games available</div>
+      <div class="game" *ngFor="let game of games">
+        <div class="text">
+          <span class="clickable" [routerLink]="['/tournament','overview', game.tournamentId]">
         <span *ngIf="game.mode === 'knockout'">🏆</span>
         <span *ngIf="game.mode === 'league'">🥇</span>
         </span>
-        <span class="winner-name clickable" [routerLink]="['/user','profile', getWinnerId(game)]">
-      {{getWinnerName(game)}}
-    </span> hat <span class="loser-name clickable" [routerLink]="['/user','profile', getLoserId(game)]">{{getLoserName(game)}}</span>
-        mit <span class="winner-score">{{getWinnerScore(game)}}</span>
-        zu <span class="loser-score">{{getLoserScore(game)}}</span> geschlagen.
+          <span class="winner-name clickable" [routerLink]="['/user','profile', getWinnerId(game)]">
+            {{getWinnerName(game)}}
+          </span>
+          <span> hat </span>
+          <span class="loser-name clickable" [routerLink]="['/user','profile', getLoserId(game)]">{{getLoserName(game)}}</span>
+          <span> mit </span>
+          <span class="winner-score">{{getWinnerScore(game)}}</span>
+          <span> zu </span>
+          <span class="loser-score">{{getLoserScore(game)}}</span>
+          <span> geschlagen.</span>
+        </div>
+        <div class="time-ago">{{getTimeAgo(game)}}</div>
       </div>
-      <div class="time-ago">{{getTimeAgo(game)}}</div>
     </div>
+
   </div>
 
+  <ng-template #noData>0 %</ng-template>
 </div>
-
-<div class="streaks streaks-left">
-  <div class="streak-tile">
-    <div class="winner-name">Current
-      longest streak
-    </div>
-    <div class="name clickable" [routerLink]="['/user','profile', longestCurrentStreakPlayer?.id]">
-      {{longestCurrentStreakPlayer?.name}}
-    </div>
-    <div class="streak">{{longestCurrentStreakPlayer?.streak}}</div>
-  </div>
-
-  <div class="streak-tile">
-    <div class="loser-name">Current
-      longest drought
-    </div>
-    <div class="name clickable" [routerLink]="['/user','profile', longestCurrentDroughtPlayer?.id]">
-      {{longestCurrentDroughtPlayer?.name}}
-    </div>
-    <div class="streak">{{longestCurrentDroughtPlayer?.streak}}</div>
-  </div>
-</div>
-
-<div class="streaks streaks-right">
-  <div class="streak-tile">
-    <div class="winner-name">Longest streak ever
-    </div>
-    <div class="name clickable" [routerLink]="['/user','profile', longestSteakPlayer?.id]">
-      {{longestSteakPlayer?.name}}
-    </div>
-    <div class="streak">{{longestSteakPlayer?.longestPositiveStreak}}</div>
-  </div>
-
-  <div class="streak-tile">
-    <div class="loser-name">Longest drought
-      ever
-    </div>
-    <div class="name clickable" [routerLink]="['/user','profile', longestDroughtPlayer?.id]">
-      {{longestDroughtPlayer?.name}}
-    </div>
-    <div class="streak">{{longestDroughtPlayer?.longestNegativeStreak}}</div>
-  </div>
-</div>
-
-
-<ng-template #noData>0 %</ng-template>

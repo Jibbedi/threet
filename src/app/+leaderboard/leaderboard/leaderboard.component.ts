@@ -5,11 +5,12 @@ import {Game} from '../../models/Game';
 import {Player} from '../../models/Player';
 import timeago from 'timeago.js';
 import {STAGE} from '../../constants/config';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-leaderboard',
   templateUrl: './leaderboard.component.html',
-  styleUrls: ['./leaderboard.component.css']
+  styleUrls: ['./leaderboard.component.scss']
 })
 export class LeaderboardComponent implements OnInit {
 
@@ -22,7 +23,7 @@ export class LeaderboardComponent implements OnInit {
   longestCurrentStreakPlayer: Player;
   longestCurrentDroughtPlayer: Player;
 
-  constructor(private db: AngularFirestore) {
+  constructor(private db: AngularFirestore, private router: Router) {
     this.games$ = this.db.collection<Game>(STAGE + 'games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
     this.db.collection<Player>(STAGE + 'players').valueChanges().subscribe(players => {
 
@@ -77,5 +78,9 @@ export class LeaderboardComponent implements OnInit {
 
   getTimeAgo(game: Game) {
     return timeago().format(game.timestamp);
+  }
+
+  newGame() {
+    this.router.navigateByUrl('game/new');
   }
 }

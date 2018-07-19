@@ -7,8 +7,13 @@
   overflow: hidden;
 }
 
+.vertical-scroll-container{
+  overflow-y: scroll;
+}
+
 h2 {
   color: #58736c;
+  font-size: 1.4em;
 }
 
 .selection {
@@ -49,6 +54,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: calc(100vw / 2);
 }
 
 .vs-wrapper {
@@ -56,10 +62,11 @@ h2 {
   margin: 0 200px;
 
   .vs-player {
-    font-size: 12em;
+
+    font-size: 2.5em;
     font-weight: bold;
     visibility: hidden;
-    height: 195px;
+    //height: 195px;
     text-shadow: -10px -1px 4px rgba(255, 255, 255, 1);
     transition: all 0.2s;
 
@@ -80,15 +87,11 @@ h2 {
   }
 
   .vs-status {
-    margin-bottom: -27px;
-    margin-top: 23px;
-    font-size: 7em;
+    font-size: 2em;
     color: #3e8371;
     font-style: italic;
-    &.has-selection {
-      height: 150px;
-    }
     .vs-text {
+      padding: 10px;
       visibility: hidden;
       transition: 0.15s all ease-out;
       transform: rotateZ(-220deg);
@@ -103,24 +106,70 @@ h2 {
       cursor: pointer;
       background: white;
       color: #0e1618;
-      font-size: 0.6em;
       color: #f03a17;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 33%;
+      font-size: 0.6em;
     }
   }
 }
 
 .first-percentage {
-  font-size: 70px;
-  position: absolute;
+  font-size: 25px;
+  //position: absolute;
   bottom: -87px;
 }
 
 .second-percentage {
-  font-size: 70px;
-  position: absolute;
+  font-size: 25px;
+  text-align: right;
+  //position: absolute;
   top: -40px;
   right: 0px;
 }
 
+@media only screen and (min-width: 640px) {
+  h2 {
+    font-size: 1.5em;
+  }
+  .vs-wrapper {
+    .vs-player {
+      font-size: 4em
+    }
+  }
+}
 
-
+@media only screen and (min-width: 1370px) {
+  .vs-wrapper {
+    .vs-status {
+      font-size: 5em;
+      .start-match {
+        display: none;
+      }
+      &:hover {
+        .start-match {
+          display: block;
+          position: relative;
+          width: 100%;
+          font-size: 1em;
+        }
+        .vs-text {
+          display: none;
+        }
+      }
+    }
+    .vs-player {
+      font-size: 12em
+    }
+  }
+  .first-percentage {
+    font-size: 75px;
+  }
+  .second-percentage {
+    font-size: 75px;
+  }
+}

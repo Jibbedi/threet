@@ -9,7 +9,7 @@ import {Tournament} from '../../models/Tournament';
 @Component({
   selector: 'app-create-tournament',
   templateUrl: './create-tournament.component.html',
-  styleUrls: ['./create-tournament.component.css']
+  styleUrls: ['./create-tournament.component.scss']
 })
 export class CreateTournamentComponent {
 

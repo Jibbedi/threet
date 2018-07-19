@@ -1,16 +1,16 @@
 <div class="selection left">
   <h2>Spieler 1</h2>
-  <div class="player" [class.selected]="isSelected(player, 0)" [class.disabled]="isDisabled(player, 0)"
-       *ngFor="let player of (player$ | async)"
-       (click)="selectPlayer(player, 0)">
-    {{player.name}}
+  <div class="vertical-scroll-container">
+    <div class="player" [class.selected]="isSelected(player, 0)" [class.disabled]="isDisabled(player, 0)"
+         *ngFor="let player of (player$ | async)"
+         (click)="selectPlayer(player, 0)">
+      {{player.name}}
+    </div>
   </div>
 </div>
 
 <div class="main-panel">
-  <div class="vs-wrapper"
-       (mouseenter)="showStartMatch = true"
-       (mouseleave)="showStartMatch = false">
+  <div class="vs-wrapper">
     <div class="vs-player player-1 align-left"
          [ngClass]="{'slide-in': selectedPlayers[0]}">
       <ng-container *ngIf="selectedPlayers[0] && selectedPlayers[0].name">
@@ -27,24 +27,25 @@
         Kontrahenten wählen
       </ng-container>
       <div class="vs-text" [ngClass]="{'spin-in': allPlayersAreSelected()}">
-        <ng-container *ngIf="allPlayersAreSelected() && !showStartMatch">
+        <ng-container *ngIf="allPlayersAreSelected()">
           VS
         </ng-container>
       </div>
       <div class="start-match"
-           *ngIf="allPlayersAreSelected() && showStartMatch"
+           *ngIf="allPlayersAreSelected()"
            (click)="startMatch()">
         {{loading ? 'Wird gestartet...' : '🏓 MATCH STARTEN'}}
       </div>
     </div>
 
+    <div class="second-percentage" *ngIf="expectedWinSecondPlayer">
+      {{expectedWinSecondPlayer}} %
+    </div>
     <div class="vs-player player-2 align-right"
          [ngClass]="{'slide-in': selectedPlayers[1]}">
       <ng-container *ngIf="selectedPlayers[1] && selectedPlayers[1].name">
         {{selectedPlayers[1].name}}
-        <div class="second-percentage" *ngIf="expectedWinSecondPlayer">
-          {{expectedWinSecondPlayer}} %
-        </div>
+
       </ng-container>
     </div>
 
@@ -53,9 +54,11 @@
 
 <div class="selection right">
   <h2>Spieler 2</h2>
-  <div class="player" [class.selected]="isSelected(player, 1)" [class.disabled]="isDisabled(player, 1)"
-       *ngFor="let player of (player$ | async)"
-       (click)="selectPlayer(player, 1)">
-    {{player.name}}
+  <div class="vertical-scroll-container">
+    <div class="player" [class.selected]="isSelected(player, 1)" [class.disabled]="isDisabled(player, 1)"
+         *ngFor="let player of (player$ | async)"
+         (click)="selectPlayer(player, 1)">
+      {{player.name}}
+    </div>
   </div>
 </div>

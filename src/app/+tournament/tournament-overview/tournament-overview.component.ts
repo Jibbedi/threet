@@ -11,7 +11,7 @@ import {PlayerService} from '../../services/player.service';
 @Component({
   selector: 'app-tournament-overview',
   templateUrl: './tournament-overview.component.html',
-  styleUrls: ['./tournament-overview.component.css']
+  styleUrls: ['./tournament-overview.component.scss']
 })
 export class TournamentOverviewComponent {
 

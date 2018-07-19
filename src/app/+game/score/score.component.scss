@@ -7,19 +7,23 @@
 }
 
 .hint {
-  font-size: 30px;
+  font-size: 20px;
   margin-top: 20px;
   text-align: center;
 }
 
 .result {
   display: flex;
-  flex: 1;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
-  align-items: center;
-  font-size: 100px;
+  font-size: 70px;
   text-align: center;
+  line-height: 1.4;
+}
+
+.controls {
+  display: flex;
 }
 
 .spacer {
@@ -42,6 +46,7 @@
   text-align: center;
   font-size: 20px;
   margin-bottom: 10px;
+  flex: 1;
 }
 
 .key {
@@ -60,4 +65,26 @@
 
 .finish-game {
   margin-top: 10px;
+}
+
+@media only screen and (min-width: 640px) {
+  .result {
+    flex-direction: row;
+    font-size: 50px;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  .hint {
+    font-size: 30px;
+  }
+
+  .conrols {
+    display: block;
+  }
+
+  .result {
+    font-size: 100px;
+    align-items: center;
+    flex: 1;
+  }
 }
