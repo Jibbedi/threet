@@ -1,0 +1,72 @@
+<div class="leaderboard">
+  <table>
+    <thead>
+    <th>Rank</th>
+    <th>Name</th>
+    <th>Games</th>
+    <th>Wins</th>
+    <th>Loses</th>
+    <th>Score For</th>
+    <th>Score Against</th>
+    <th>+/-</th>
+    <th>Points</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let player of ranking; let index = index; let first = first"
+        [ngClass]="{'first': first}">
+      <td class="rank"
+          [ngClass]="{'first': first}">
+
+        <span *ngIf="index === 0">🥇</span>
+        <span *ngIf="index === 1">🥈</span>
+        <span *ngIf="index === 2">🥉</span>
+        <span *ngIf="index > 2">{{index + 1}}</span>
+      </td>
+      <td>{{player.name}}</td>
+      <td>
+        {{player.wins + player.loses}}
+      </td>
+      <td>{{player.wins}}</td>
+      <td>{{player.loses}}</td>
+      <td>{{player.scoreFor}}</td>
+      <td>{{player.scoreAgainst}}</td>
+      <td>{{player.scoreFor - player.scoreAgainst}}</td>
+      <td>{{player.points}}</td>
+    </tr>
+
+    </tbody>
+  </table>
+
+  <div class="prices">
+    <div *ngFor="let price of prices">
+      {{price.name}} has won {{price.price}} points
+    </div>
+  </div>
+
+</div>
+
+<div class="games">
+  <div class="game" (click)="onGameClick(gameId)" *ngFor="let gameId of tournament.games; let index = index">
+    <div>Match #{{index+1}}</div>
+    <div class="players">
+      <ng-container *ngIf="getGameForId(gameId) as game">
+        <div class="player">
+          <div class="score score-first">
+            {{game.firstPlayerScore}}
+          </div>
+          <div class="player-name">
+            {{game.firstPlayerName}}
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-name">
+            {{game.secondPlayerName}}
+          </div>
+          <div class="score score-second">
+            {{game.secondPlayerScore}}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

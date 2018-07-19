@@ -1,10 +1,21 @@
 <h2>Tournament</h2>
 <div class="button" *ngIf="tournament && !tournament.done" (click)="nextMatch()">Next match</div>
-<app-knockout-phase-tree *ngIf="games && tournament" [games]="games" [playerCount]="tournament.participantsIds.length"
-                         [stages]="tournament.stages"></app-knockout-phase-tree>
 
 
-<h3 *ngIf="tournament && tournament.winnerName">{{tournament.winnerName}} has won the pot of {{tournament.stakePerPlayer
-  *
-  tournament.participantsIds.length}} points
-</h3>
+<ng-container *ngIf="shouldDisplayKnockoutView(); else league">
+  <app-knockout-phase-tree *ngIf="games && tournament" [games]="games" [playerCount]="tournament.participantsIds.length"
+                           [stages]="tournament.stages"></app-knockout-phase-tree>
+
+  <h3 *ngIf="tournament && tournament.winnerName">{{tournament.winnerName}} has won the pot of
+    {{tournament.stakePerPlayer
+    *
+    tournament.participantsIds.length}} points
+  </h3>
+</ng-container>
+
+
+<ng-template #league>
+  <ng-container *ngIf="tournament && games">
+    <app-league-view (startGame)="startGame($event)" [games]="games" [tournament]="tournament"></app-league-view>
+  </ng-container>
+</ng-template>

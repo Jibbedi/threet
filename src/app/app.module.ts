@@ -15,6 +15,8 @@ import {PlayerService} from './services/player.service';
 import {KnockoutPhaseTreeComponent} from './+tournament/knockout-phase-tree/knockout-phase-tree.component';
 import {TournamentOverviewComponent} from './+tournament/tournament-overview/tournament-overview.component';
 import {ProfileComponent} from './+user/profile/profile.component';
+import {FormsModule} from '@angular/forms';
+import {LeagueViewComponent} from './+tournament/league-view/league-view.component';
 
 
 const routes: Routes = [
@@ -78,10 +80,12 @@ const routes: Routes = [
     AdminComponent,
     LeaderboardComponent,
     KnockoutPhaseTreeComponent,
+    LeagueViewComponent,
     TournamentOverviewComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     RouterModule.forRoot(routes),
     AngularFireModule.initializeApp({
       apiKey: 'AIzaSyAWzy8vLLarlAFyx_8nKdT52a5XYAAWUW8',

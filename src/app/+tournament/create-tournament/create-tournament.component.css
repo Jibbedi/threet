@@ -31,3 +31,11 @@ h2 {
   background: white;
   color: #2d3436;
 }
+
+.select-type {
+  display: flex;
+}
+
+.container {
+  margin-bottom: 20px;
+}

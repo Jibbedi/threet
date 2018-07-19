@@ -15,6 +15,12 @@ export class CreateTournamentComponent {
 
   participatingPlayers: Player[] = [];
 
+  type: 'knockout' | 'league' = 'knockout';
+
+  stake = 10;
+
+  splitPercentages = [60, 30, 10];
+
 
   constructor(public playerService: PlayerService,
               private db: AngularFirestore,
@@ -25,9 +31,9 @@ export class CreateTournamentComponent {
     this.db.collection<Tournament>(STAGE + 'tournaments').add({
       participantsIds: this.participatingPlayers.map(player => player.id),
       timestamp: Date.now(),
-      stakePerPlayer: 10,
-      splitPercentages: [90, 10],
-      mode: 'knockout',
+      stakePerPlayer: this.stake,
+      splitPercentages: this.splitPercentages,
+      mode: this.type,
       done: false,
       shouldEffectElo: false,
       shouldEffectRank: false
@@ -39,9 +45,13 @@ export class CreateTournamentComponent {
   selectPlayer(player: Player): void {
     if (this.participatingPlayers.includes(player)) {
       this.participatingPlayers = this.participatingPlayers.filter(participatingPlayer => participatingPlayer !== player);
+      this.splitPercentages.pop();
     } else {
       this.participatingPlayers = [...this.participatingPlayers, player];
+      this.splitPercentages.push(0);
     }
+
+
   }
 
   isSelected(player): boolean {
@@ -49,6 +59,20 @@ export class CreateTournamentComponent {
   }
 
   isNumberOfPlayersValid() {
-    return Math.log2(this.participatingPlayers.length) % 1 === 0 && this.participatingPlayers.length >= 4;
+    return this.type === 'knockout' ?
+      Math.log2(this.participatingPlayers.length) % 1 === 0 && this.participatingPlayers.length >= 4 :
+      this.participatingPlayers.length >= 4;
+  }
+
+  isPercentageValid() {
+    return this.splitPercentages.reduce((sum, percentage) => sum + percentage, 0) === 100;
+  }
+
+  setType(type: 'knockout' | 'league') {
+    this.type = type;
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
   }
 }

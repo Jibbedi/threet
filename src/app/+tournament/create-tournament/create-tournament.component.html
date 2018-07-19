@@ -1,12 +1,39 @@
 <h2>Create tournament</h2>
 
-<div class="button" [class.disabled]="!isNumberOfPlayersValid()" (click)="createTournament()">Create Tourament</div>
+<div class="button" [class.disabled]="!isNumberOfPlayersValid() || !isPercentageValid()" (click)="createTournament()">
+  Create Tourament
+</div>
 
 
-<div>Select players</div>
-<div class="player-selection">
-  <div class="player" (click)="selectPlayer(player)" [class.selected]="isSelected(player)"
-       *ngFor="let player of playerService.players">
-    {{player.name}}
+<div class="container">
+  <div>Select type</div>
+  <div class="select-type">
+    <div class="player" [class.selected]="type === 'knockout'" (click)="setType('knockout')">K.O.</div>
+    <div class="player" [class.selected]="type === 'league'" (click)="setType('league')">League</div>
+  </div>
+</div>
+
+<div class="container">
+  <div>Select stake per player</div>
+  <div>
+    <input type="number" [(ngModel)]="stake">
+  </div>
+</div>
+
+<div class="container" *ngIf="type === 'league'">
+  <div>Select stake per player</div>
+  <div>
+    <input type="number" [(ngModel)]="splitPercentages[index]"
+           *ngFor="let id of participatingPlayers; let index = index; trackBy:trackByIndex">
+  </div>
+</div>
+
+<div class="container">
+  <div>Select players</div>
+  <div class="player-selection">
+    <div class="player" (click)="selectPlayer(player)" [class.selected]="isSelected(player)"
+         *ngFor="let player of playerService.players">
+      {{player.name}}
+    </div>
   </div>
 </div>
