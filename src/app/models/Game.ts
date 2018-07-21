@@ -12,4 +12,5 @@ export interface Game {
   shouldEffectRank: boolean;
   shouldEffectElo: boolean;
   tournamentId: string;
+  startTimestamp: number;
 }
