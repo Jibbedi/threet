@@ -7,10 +7,10 @@
 .stage-wrapper {
   display: flex;
   justify-content: space-around;
-}
-
-.stage-name {
-  margin-bottom: 20px;
+  flex-direction: column;
+  .stage {
+    margin: 0 0 20px 0;
+  }
 }
 
 .game-wrapper, .stage {
@@ -18,12 +18,12 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  align-items: center;
 }
 
 .game {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 60px;
+  margin: 10px;
 }
 
 .player-wrapper.out {
@@ -54,5 +54,20 @@
 }
 
 .vs {
-  margin: 10px 0;
+  margin: 10px;
+}
+
+@media only screen and (min-width: 1370px) {
+  .stage-wrapper {
+    flex-direction: row;
+  }
+
+  .stage-name {
+    margin-bottom: 20px;
+  }
+
+  .game {
+    flex-direction: column;
+    margin: 0 0 60px 0;
+  }
 }

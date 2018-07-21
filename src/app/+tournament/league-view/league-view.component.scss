@@ -1,0 +1,91 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 10px;
+}
+
+.games {
+  display: flex;
+  overflow: auto;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.players {
+  display: flex;
+  justify-content: center;
+}
+
+.player {
+  display: flex;
+  color: #2d3436;;
+}
+
+.player-name {
+  background: white;
+  padding: 10px;
+}
+
+.score-first {
+  margin-right: 5px;
+}
+
+.score-second {
+  margin-left: 5px;
+}
+
+.score {
+  padding: 10px;
+  background: white;
+}
+
+.leaderboard {
+  table {
+    width: 100%;
+  }
+  th {
+    padding: 0px 4px;
+    color: white;
+  }
+
+  tr td {
+    margin-right: 10px;
+    padding: 2px 4px;
+    text-align: center;
+    background: white;
+    color: #3a4a46;
+    border-radius: 2px;
+  }
+}
+
+.prices {
+  margin-top: 20px;
+}
+
+@media only screen and (min-width: 1370px) {
+  :host {
+    display: flex;
+    font-size: 15px;
+  }
+  .leaderboard {
+    th {
+      padding: 0px 15px;
+    }
+
+    tr td {
+      margin-right: 10px;
+      padding: 4px 15px;
+    }
+  }
+}

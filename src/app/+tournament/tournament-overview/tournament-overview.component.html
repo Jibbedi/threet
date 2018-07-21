@@ -1,6 +1,5 @@
 <h2>Tournament</h2>
-<div class="button" *ngIf="tournament && !tournament.done" (click)="nextMatch()">Next match</div>
-
+<div class="button" *ngIf="tournament && !tournament.done" (click)="nextMatch()">Start next match &gt;{{nextGame.firstPlayerName}} vs {{nextGame.secondPlayerName }}&lt;</div>
 
 <ng-container *ngIf="shouldDisplayKnockoutView(); else league">
   <app-knockout-phase-tree *ngIf="games && tournament" [games]="games" [playerCount]="tournament.participantsIds.length"
