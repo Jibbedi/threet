@@ -85,6 +85,11 @@ export class ScoreComponent {
   }
 
   setToActive(playerId: string) {
+
+    if (!this.game.startTimestamp) {
+      this.game.startTimestamp = Date.now();
+    }
+
     this.activePlayer = playerId;
     this.initialActivePlayer = playerId;
   }
