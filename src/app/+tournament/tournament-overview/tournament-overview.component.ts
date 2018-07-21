@@ -18,6 +18,7 @@ export class TournamentOverviewComponent {
   tournament: Tournament;
   games: Game[];
   tournamentId: string;
+  nextGame: Game;
 
   constructor(private route: ActivatedRoute,
               private db: AngularFirestore,
@@ -36,6 +37,7 @@ export class TournamentOverviewComponent {
       .subscribe((tournamentAndGames: { tournament: Tournament, games: Game[] }) => {
         this.tournament = tournamentAndGames.tournament;
         this.games = tournamentAndGames.games;
+        this.nextGame = this.findNextGame();
       });
   }
 
@@ -44,7 +46,11 @@ export class TournamentOverviewComponent {
   }
 
   nextMatch() {
+    this.routeToGame(this.nextGame.gameId);
 
+  }
+
+  findNextGame(): Game {
     let nextGame;
 
     if (this.tournament.mode === 'league') {
@@ -64,10 +70,7 @@ export class TournamentOverviewComponent {
 
       nextGame = currentStage.map(gameId => this.games.find(game => game.gameId === gameId)).find(game => !game.done);
     }
-
-
-    this.routeToGame(nextGame.gameId);
-
+    return nextGame;
   }
 
   startGame(id: string) {

@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  display: flex;
+  font-size: 10px;
 }
 
 .games {
@@ -50,20 +50,42 @@
   background: white;
 }
 
-.leaderboard th {
-  padding: 0px 15px;
-  color: white;
-}
+.leaderboard {
+  table {
+    width: 100%;
+  }
+  th {
+    padding: 0px 4px;
+    color: white;
+  }
 
-.leaderboard tr td {
-  margin-right: 10px;
-  padding: 4px 15px;
-  text-align: center;
-  background: white;
-  color: #3a4a46;
-  border-radius: 2px;
+  tr td {
+    margin-right: 10px;
+    padding: 2px 4px;
+    text-align: center;
+    background: white;
+    color: #3a4a46;
+    border-radius: 2px;
+  }
 }
 
 .prices {
   margin-top: 20px;
+}
+
+@media only screen and (min-width: 1370px) {
+  :host {
+    display: flex;
+    font-size: 15px;
+  }
+  .leaderboard {
+    th {
+      padding: 0px 15px;
+    }
+
+    tr td {
+      margin-right: 10px;
+      padding: 4px 15px;
+    }
+  }
 }

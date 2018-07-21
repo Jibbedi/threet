@@ -5,7 +5,7 @@ import {Tournament} from '../../models/Tournament';
 @Component({
   selector: 'app-league-view',
   templateUrl: './league-view.component.html',
-  styleUrls: ['./league-view.component.css']
+  styleUrls: ['./league-view.component.scss']
 })
 export class LeagueViewComponent implements OnChanges {
 
