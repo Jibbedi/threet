@@ -1,12 +1,14 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Observable} from 'rxjs';
 import {Player} from '../../models/Player';
 import {Game} from '../../models/Game';
 import {Sounds} from '../../../assets/sounds';
 import {AngularFireFunctions} from 'angularfire2/functions';
 import {STAGE} from '../../constants/config';
+import {PreMatchInfo} from '../../models/PreMatchInfo';
+import {PlayerService} from '../../services/player.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new',
@@ -15,19 +17,25 @@ import {STAGE} from '../../constants/config';
 })
 export class NewComponent {
 
-  player$: Observable<Player[]>;
+  players: Player[];
   selectedPlayers: Player[] = [];
 
-  showStartMatch = false;
   loading = false;
 
-  expectedWinFirstPlayer: number;
-  expectedWinSecondPlayer: number;
+  firstPlayerPreMatchInfo: PreMatchInfo;
+  secondPlayerPreMatchInfo: PreMatchInfo;
 
   constructor(private db: AngularFirestore,
               private functions: AngularFireFunctions,
+              public playerService: PlayerService,
               private router: Router) {
-    this.player$ = this.db.collection<Player>(STAGE + 'players').valueChanges();
+
+    this.playerService.loaded
+      .pipe(filter(loaded => loaded))
+      .subscribe(v => {
+        this.players = this.playerService.players;
+      });
+
   }
 
   selectPlayer(player: Player, index: number) {
@@ -48,11 +56,43 @@ export class NewComponent {
       const callable = this.functions.httpsCallable('preMatchInfo');
       callable({firstPlayerEloRank: this.selectedPlayers[0].eloRank, secondPlayerEloRank: this.selectedPlayers[1].eloRank}).subscribe(v => {
         console.log(v);
-        this.expectedWinFirstPlayer = v.expectedWinFirstPlayer;
-        this.expectedWinSecondPlayer = v.expectedWinSecondPlayer;
+
+        const firstPlayerId = this.selectedPlayers[0].id;
+        const secondPlayerId = this.selectedPlayers[1].id;
+
+        this.firstPlayerPreMatchInfo = v.firstPlayer;
+        this.secondPlayerPreMatchInfo = v.secondPlayer;
+
+
+        const firstPlayerWinsRanking = this.playerService.getRanking({
+          [firstPlayerId]: this.firstPlayerPreMatchInfo.eloIfWin,
+          [secondPlayerId]: this.secondPlayerPreMatchInfo.eloIfLoss
+        });
+
+        const secondPlayerWinsRanking = this.playerService.getRanking({
+          [firstPlayerId]: this.firstPlayerPreMatchInfo.eloIfLoss,
+          [secondPlayerId]: this.secondPlayerPreMatchInfo.eloIfWin
+        });
+
+
+        this.firstPlayerPreMatchInfo.rankIfWin = this.playerService.getPlaceForPlayer(this.selectedPlayers[0], firstPlayerWinsRanking);
+        this.firstPlayerPreMatchInfo.rankIfLoss = this.playerService.getPlaceForPlayer(this.selectedPlayers[0], secondPlayerWinsRanking);
+
+        this.secondPlayerPreMatchInfo.rankIfWin = this.playerService.getPlaceForPlayer(this.selectedPlayers[1], secondPlayerWinsRanking);
+        this.secondPlayerPreMatchInfo.rankIfLoss = this.playerService.getPlaceForPlayer(this.selectedPlayers[1], firstPlayerWinsRanking);
+
       });
     }
 
+  }
+
+  getRankDiff(currentRank: number, futureRank: number) {
+    const diff = futureRank - currentRank;
+    return Math.min(1, Math.max(-1, diff));
+  }
+
+  getDiff(currentElo: number, futureElo: number) {
+    return futureElo - currentElo;
   }
 
   isSelected(player: Player, index: number) {

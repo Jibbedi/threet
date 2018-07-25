@@ -6,6 +6,8 @@ import {Player} from '../../models/Player';
 import timeago from 'timeago.js';
 import {STAGE} from '../../constants/config';
 import {Router} from '@angular/router';
+import {PlayerService} from '../../services/player.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-leaderboard',
@@ -23,21 +25,21 @@ export class LeaderboardComponent implements OnInit {
   longestCurrentStreakPlayer: Player;
   longestCurrentDroughtPlayer: Player;
 
-  constructor(private db: AngularFirestore, private router: Router) {
+  constructor(private db: AngularFirestore, private playerService: PlayerService, private router: Router) {
     this.games$ = this.db.collection<Game>(STAGE + 'games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
-    this.db.collection<Player>(STAGE + 'players').valueChanges().subscribe(players => {
 
 
-      this.longestSteakPlayer = players.filter(player => !!player.longestPositiveStreak).sort((a, b) => a.longestPositiveStreak > b.longestPositiveStreak ? -1 : a.longestPositiveStreak === b.longestPositiveStreak ? 0 : 1)[0];
-      this.longestCurrentStreakPlayer = players.filter(player => !!player.streak).sort((a, b) => a.streak > b.streak ? -1 : a.streak === b.streak ? 0 : 1)[0];
-      this.longestCurrentDroughtPlayer = players.filter(player => !!player.streak).sort((a, b) => a.streak < b.streak ? -1 : a.streak === b.streak ? 0 : 1)[0];
-      this.longestDroughtPlayer = players.filter(player => !!player.longestNegativeStreak).sort((a, b) => a.longestNegativeStreak < b.longestNegativeStreak ? -1 : a.longestNegativeStreak === b.longestNegativeStreak ? 0 : 1)[0];
+    this.playerService.loaded
+      .pipe(filter(loaded => loaded))
+      .subscribe(v => {
+        const players = this.playerService.players;
+        this.ranking = this.playerService.getRanking();
 
-      this.ranking = players.filter(player => player.totalWins > 0 || player.totalLoses > 0).map(player => {
-        return {...player, eloRank: player.eloRank || 1000};
-      }).sort((a, b) => a.eloRank > b.eloRank ? -1 : a.eloRank === b.eloRank ? 0 : 1);
-    });
-
+        this.longestSteakPlayer = players.filter(player => !!player.longestPositiveStreak).sort((a, b) => a.longestPositiveStreak > b.longestPositiveStreak ? -1 : a.longestPositiveStreak === b.longestPositiveStreak ? 0 : 1)[0];
+        this.longestCurrentStreakPlayer = players.filter(player => !!player.streak).sort((a, b) => a.streak > b.streak ? -1 : a.streak === b.streak ? 0 : 1)[0];
+        this.longestCurrentDroughtPlayer = players.filter(player => !!player.streak).sort((a, b) => a.streak < b.streak ? -1 : a.streak === b.streak ? 0 : 1)[0];
+        this.longestDroughtPlayer = players.filter(player => !!player.longestNegativeStreak).sort((a, b) => a.longestNegativeStreak < b.longestNegativeStreak ? -1 : a.longestNegativeStreak === b.longestNegativeStreak ? 0 : 1)[0];
+      });
   }
 
   ngOnInit() {
