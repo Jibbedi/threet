@@ -4,8 +4,21 @@
     Select who is serving first by clicking on a player's name.
   </div>
 
-  <div class="button finish-game" [class.disabled]="!isGameFinished()" (click)="finishGame()">
-    Finish Game
+  <div class="button finish-game"
+       [class.disabled]="!isGameFinished()"
+       [class.finished]="isGameFinished()"
+       [class.maximized]="finishButtonMaximized"
+       (click)="finishGame()">
+    <div>
+      <div *ngIf="isGameFinished() && finishButtonMaximized"
+           class="close"
+           (click)="finishButtonMaximized = false; $event.stopPropagation();">❌</div>
+      <div>Finish Game</div>
+      <div *ngIf="isGameFinished()" class="winner-info">
+        <span class="name">{{getFinishedGameStats().winner.name}}</span>
+        wins {{getFinishedGameStats().winner.score}} : {{getFinishedGameStats().loser.score}}
+      </div>
+    </div>
   </div>
 
   <div class="result">

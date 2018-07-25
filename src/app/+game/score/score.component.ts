@@ -18,6 +18,8 @@ export class ScoreComponent {
 
   tournamentId: string;
 
+  finishButtonMaximized: boolean = true;
+
   @HostListener('document:keydown', ['$event'])
   handleKeydown($event: KeyboardEvent) {
 
@@ -124,5 +126,21 @@ export class ScoreComponent {
       this.router.navigate(['tournament', 'overview', this.tournamentId]);
     }
 
+  }
+
+  getFinishedGameStats() {
+    const {firstPlayerScore, secondPlayerScore, firstPlayerName, secondPlayerName} = this.game;
+    const firstPlayerWon = firstPlayerScore > secondPlayerScore;
+
+    return {
+      winner: {
+        name: firstPlayerWon ? firstPlayerName : secondPlayerName,
+        score: firstPlayerWon ? firstPlayerScore : secondPlayerScore
+      },
+      loser: {
+        name: firstPlayerWon ? secondPlayerName : firstPlayerName,
+        score: firstPlayerWon ? secondPlayerScore : firstPlayerScore
+      }
+    }
   }
 }
