@@ -1,64 +1,81 @@
 <div class="selection left">
-  <h2>Spieler 1</h2>
-  <div class="vertical-scroll-container">
-    <div class="player" [class.selected]="isSelected(player, 0)" [class.disabled]="isDisabled(player, 0)"
-         *ngFor="let player of (player$ | async)"
-         (click)="selectPlayer(player, 0)">
-      {{player.name}}
-    </div>
-  </div>
+  <ng-container [ngTemplateOutlet]="playerSelection"
+                [ngTemplateOutletContext]="{$implicit: 0}"></ng-container>
 </div>
 
 <div class="main-panel">
-  <div class="vs-wrapper">
-    <div class="vs-player player-1 align-left"
-         [ngClass]="{'slide-in': selectedPlayers[0]}">
-      <ng-container *ngIf="selectedPlayers[0] && selectedPlayers[0].name">
-        {{selectedPlayers[0].name}}
-        <div class="first-percentage" *ngIf="expectedWinFirstPlayer">
-          {{expectedWinFirstPlayer}} %
+
+  <ng-container *ngIf="allPlayersAreSelected()">
+    <div class="category-wrapper">
+      <div>Rank {{playerService.getPlaceForPlayer(selectedPlayers[0])}} ({{selectedPlayers[0].eloRank}})</div>
+      <div class="category">Current</div>
+      <div>Rank {{playerService.getPlaceForPlayer(selectedPlayers[1])}} ({{selectedPlayers[1].eloRank}})</div>
+    </div>
+    <ng-container *ngIf="firstPlayerPreMatchInfo">
+      <div class="category-wrapper">
+        <div>{{firstPlayerPreMatchInfo?.winProbability}} %</div>
+        <div class="category">Win Probability</div>
+        <div>{{secondPlayerPreMatchInfo?.winProbability}} %</div>
+      </div>
+      <div class="category-wrapper">
+        <div>
+          <ng-container [ngTemplateOutlet]="newElo"
+                        [ngTemplateOutletContext]="{rank: firstPlayerPreMatchInfo.rankIfWin, oldRank:playerService.getPlaceForPlayer(selectedPlayers[0]),  elo: firstPlayerPreMatchInfo.eloIfWin, oldElo: selectedPlayers[0].eloRank}"></ng-container>
         </div>
-      </ng-container>
-    </div>
-
-    <div class="vs-status align-center"
-         [ngClass]="{'has-selection': this.selectedPlayers[0] || this.selectedPlayers[1]}">
-      <ng-container *ngIf="!this.selectedPlayers[0] && !this.selectedPlayers[1]">
-        Kontrahenten wählen
-      </ng-container>
-      <div class="vs-text" [ngClass]="{'spin-in': allPlayersAreSelected()}">
-        <ng-container *ngIf="allPlayersAreSelected()">
-          VS
-        </ng-container>
+        <div class="category">If {{selectedPlayers[0].name}} wins</div>
+        <div>
+          <ng-container [ngTemplateOutlet]="newElo"
+                        [ngTemplateOutletContext]="{rank: secondPlayerPreMatchInfo.rankIfLoss, oldRank: playerService.getPlaceForPlayer(selectedPlayers[1]), elo: secondPlayerPreMatchInfo.eloIfLoss, oldElo: selectedPlayers[1].eloRank}"></ng-container>
+        </div>
       </div>
-      <div class="start-match"
-           *ngIf="allPlayersAreSelected()"
-           (click)="startMatch()">
-        {{loading ? 'Wird gestartet...' : '🏓 MATCH STARTEN'}}
+      <div class="category-wrapper">
+        <div>
+          <ng-container [ngTemplateOutlet]="newElo"
+                        [ngTemplateOutletContext]="{rank: firstPlayerPreMatchInfo.rankIfLoss, oldRank : playerService.getPlaceForPlayer(selectedPlayers[0]),  elo: firstPlayerPreMatchInfo.eloIfLoss, oldElo: selectedPlayers[0].eloRank}"></ng-container>
+        </div>
+        <div class="category">If {{selectedPlayers[1].name}} wins</div>
+        <div>
+          <ng-container [ngTemplateOutlet]="newElo"
+                        [ngTemplateOutletContext]="{rank: secondPlayerPreMatchInfo.rankIfWin, oldRank: playerService.getPlaceForPlayer(selectedPlayers[1]), elo: secondPlayerPreMatchInfo.eloIfWin, oldElo: selectedPlayers[1].eloRank}"></ng-container>
+        </div>
       </div>
-    </div>
+    </ng-container>
+  </ng-container>
 
-    <div class="second-percentage" *ngIf="expectedWinSecondPlayer">
-      {{expectedWinSecondPlayer}} %
-    </div>
-    <div class="vs-player player-2 align-right"
-         [ngClass]="{'slide-in': selectedPlayers[1]}">
-      <ng-container *ngIf="selectedPlayers[1] && selectedPlayers[1].name">
-        {{selectedPlayers[1].name}}
-
-      </ng-container>
-    </div>
-
+  <div class="start-match"
+       *ngIf="allPlayersAreSelected()"
+       (click)="startMatch()">
+    {{loading ? 'Wird gestartet...' : '🏓 MATCH STARTEN'}}
   </div>
+
+
 </div>
 
 <div class="selection right">
-  <h2>Spieler 2</h2>
+  <ng-container [ngTemplateOutlet]="playerSelection"
+                [ngTemplateOutletContext]="{$implicit: 1}"></ng-container>
+</div>
+
+
+<ng-template let-index #playerSelection>
+  <h2>Spieler {{index + 1}}</h2>
   <div class="vertical-scroll-container">
-    <div class="player" [class.selected]="isSelected(player, 1)" [class.disabled]="isDisabled(player, 1)"
-         *ngFor="let player of (player$ | async)"
-         (click)="selectPlayer(player, 1)">
+    <div class="player" [class.selected]="isSelected(player, index)" [class.disabled]="isDisabled(player, index)"
+         *ngFor="let player of players"
+         (click)="selectPlayer(player, index)">
       {{player.name}}
     </div>
   </div>
-</div>
+</ng-template>
+
+
+<ng-template let-rank="rank" let-oldRank="oldRank" let-elo="elo" let-oldElo="oldElo" #newElo>
+  Rank {{rank}}
+  <ng-container [ngSwitch]="getRankDiff(oldRank, rank)">
+    <div *ngSwitchCase="0" class="same">&nbsp;</div>
+    <span *ngSwitchCase="1" class="down">▼</span>
+    <span *ngSwitchCase="-1" class="up">▲</span>
+  </ng-container>
+  -
+  ({{elo}} | {{getDiff(oldElo, elo)}})
+</ng-template>

@@ -17,4 +17,22 @@ export class PlayerService {
       this.loaded.next(true);
     });
   }
+
+  getRanking(overrideElosForIds?: { [id: string]: number }): Player[] {
+    return this.players.filter(player => player.totalWins > 0 || player.totalLoses > 0).map(player => {
+
+      const overrideElo = overrideElosForIds ? overrideElosForIds[player.id] : null;
+
+      if (overrideElo) {
+        return {...player, eloRank: overrideElo};
+      } else {
+        return {...player, eloRank: player.eloRank || 1000};
+      }
+
+    }).sort((a, b) => a.eloRank > b.eloRank ? -1 : a.eloRank === b.eloRank ? 0 : 1);
+  }
+
+  getPlaceForPlayer(player: Player, ranking: Player[] = this.getRanking()) {
+    return ranking.findIndex(playerInRanking => playerInRanking.id === player.id) + 1;
+  }
 }
