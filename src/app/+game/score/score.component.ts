@@ -82,8 +82,15 @@ export class ScoreComponent {
 
   calculateActivePlayer() {
     const totalPoints = this.game.secondPlayerScore + this.game.firstPlayerScore;
+    const oppositePlayer = this.initialActivePlayer === this.game.firstPlayerId ? this.game.secondPlayerId : this.game.firstPlayerId;
+
+    if (this.isOverTime()) {
+      this.activePlayer = totalPoints % 2 === 0 ? this.initialActivePlayer : oppositePlayer;
+      return;
+    }
+
     const serviceChanges = Math.floor(totalPoints / 2);
-    this.activePlayer = serviceChanges % 2 === 0 ? this.initialActivePlayer : (this.initialActivePlayer === this.game.firstPlayerId ? this.game.secondPlayerId : this.game.firstPlayerId);
+    this.activePlayer = serviceChanges % 2 === 0 ? this.initialActivePlayer : oppositePlayer;
   }
 
   setToActive(playerId: string) {
@@ -100,6 +107,10 @@ export class ScoreComponent {
     this.initialActivePlayer = playerId;
   }
 
+
+  isOverTime(): boolean {
+    return this.game.secondPlayerScore >= WINNING_GAME_POINTS || this.game.firstPlayerScore >= WINNING_GAME_POINTS;
+  }
 
   isGameFinished() {
     const {firstPlayerScore, secondPlayerScore} = this.game;
