@@ -1,15 +1,21 @@
-<h2>Tournament</h2>
-<div class="button" *ngIf="tournament && !tournament.done" (click)="nextMatch()">Start next match &gt;{{nextGame.firstPlayerName}} vs {{nextGame.secondPlayerName }}&lt;</div>
+<ng-container *ngIf="tournament && games">
+  <h2>Tournament</h2>
+  <div class="button" *ngIf="tournament && !tournament.done && nextGame" (click)="nextMatch()">Start next match &gt;{{nextGame.firstPlayerName}}
+    vs {{nextGame.secondPlayerName }}&lt;
+  </div>
 
-<ng-container *ngIf="shouldDisplayKnockoutView(); else league">
-  <app-knockout-phase-tree *ngIf="games && tournament" [games]="games" [playerCount]="tournament.participantsIds.length"
-                           [stages]="tournament.stages"></app-knockout-phase-tree>
+  <ng-container *ngIf="shouldDisplayKnockoutView(); else league">
+    <app-knockout-phase-tree *ngIf="games && tournament" [games]="games"
+                             [playerCount]="tournament.participantsIds.length"
+                             [stages]="tournament.stages"></app-knockout-phase-tree>
 
-  <h3 *ngIf="tournament && tournament.winnerName">{{tournament.winnerName}} has won the pot of
-    {{tournament.stakePerPlayer
-    *
-    tournament.participantsIds.length}} points
-  </h3>
+    <h3 *ngIf="tournament && tournament.winnerName">{{tournament.winnerName}} has won the pot of
+      {{tournament.stakePerPlayer
+      *
+      tournament.participantsIds.length}} points
+    </h3>
+  </ng-container>
+
 </ng-container>
 
 
