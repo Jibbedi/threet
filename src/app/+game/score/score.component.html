@@ -1,10 +1,11 @@
 <ng-container *ngIf="game">
 
-  <div class="hint" *ngIf="!activePlayer">
+  <div class="hint" *ngIf="!activePlayer && !game.done">
     Select who is serving first by clicking on a player's name.
   </div>
 
   <div class="button finish-game"
+       *ngIf="!game.done"
        [class.disabled]="!isGameFinished()"
        [class.finished]="isGameFinished()"
        [class.maximized]="finishButtonMaximized"
@@ -12,7 +13,8 @@
     <div>
       <div *ngIf="isGameFinished() && finishButtonMaximized"
            class="close"
-           (click)="finishButtonMaximized = false; $event.stopPropagation();">❌</div>
+           (click)="finishButtonMaximized = false; $event.stopPropagation();">❌
+      </div>
       <div>Finish Game</div>
       <div *ngIf="isGameFinished()" class="winner-info">
         <span class="name">{{getFinishedGameStats().winner.name}}</span>
@@ -29,7 +31,7 @@
       <div class="score">
         {{game.firstPlayerScore}}
       </div>
-      <div class="controls">
+      <div class="controls" *ngIf="!game.done">
         <div (click)="scoreUpFirstPlayer(); $event.stopPropagation()">
           <div class="control-hint">
             <div class="key">
@@ -62,7 +64,7 @@
       <div class="score">
         {{game.secondPlayerScore}}
       </div>
-      <div class="controls">
+      <div class="controls" *ngIf="!game.done">
         <div (click)="scoreUpSecondPlayer(); $event.stopPropagation()">
           <div class="control-hint">
             <div class="key">
