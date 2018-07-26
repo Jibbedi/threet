@@ -37,6 +37,7 @@ export class TournamentOverviewComponent {
       .subscribe((tournamentAndGames: { tournament: Tournament, games: Game[] }) => {
         this.tournament = tournamentAndGames.tournament;
         this.games = tournamentAndGames.games;
+        console.log(this.games);
         this.nextGame = this.findNextGame();
       });
   }

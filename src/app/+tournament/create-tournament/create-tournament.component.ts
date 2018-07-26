@@ -4,7 +4,7 @@ import {PlayerService} from '../../services/player.service';
 import {Player} from '../../models/Player';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {STAGE} from '../../constants/config';
-import {Tournament} from '../../models/Tournament';
+import {AngularFireFunctions} from 'angularfire2/functions';
 
 @Component({
   selector: 'app-create-tournament',
@@ -21,24 +21,39 @@ export class CreateTournamentComponent {
 
   splitPercentages = [60, 30, 10];
 
+  loading = false;
+
 
   constructor(public playerService: PlayerService,
               private db: AngularFirestore,
+              private functions: AngularFireFunctions,
               private router: Router) {
   }
 
   createTournament() {
-    this.db.collection<Tournament>(STAGE + 'tournaments').add({
-      participantsIds: this.participatingPlayers.map(player => player.id),
-      timestamp: Date.now(),
-      stakePerPlayer: this.stake,
-      splitPercentages: this.splitPercentages,
-      mode: this.type,
-      done: false,
-      shouldEffectElo: false,
-      shouldEffectRank: false
-    }).then(tournament => {
-      this.router.navigate(['tournament', 'overview', tournament.id]);
+
+    this.loading = true;
+
+    const tournamentFunctionName = this.type === 'knockout' ? 'createKnockoutTournamentFunction' : 'createLeagueTournamentFunction';
+
+
+    const callable = this.functions.httpsCallable(tournamentFunctionName);
+
+    callable({
+      tournament: {
+        participantsIds: this.participatingPlayers.map(player => player.id),
+        timestamp: Date.now(),
+        stakePerPlayer: this.stake,
+        splitPercentages: this.splitPercentages,
+        mode: this.type,
+        done: false,
+        shouldEffectElo: false,
+        shouldEffectRank: false
+      },
+      stage: STAGE
+    }).subscribe(tournamentId => {
+      this.loading = false;
+      this.router.navigate(['tournament', 'overview', tournamentId]);
     });
   }
 
