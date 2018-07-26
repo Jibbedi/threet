@@ -92,9 +92,14 @@ export class ScoreComponent {
       this.game.startTimestamp = Date.now();
     }
 
+    if (this.pointsHaveBeenMade()) {
+      return;
+    }
+
     this.activePlayer = playerId;
     this.initialActivePlayer = playerId;
   }
+
 
   isGameFinished() {
     const {firstPlayerScore, secondPlayerScore} = this.game;
@@ -141,6 +146,11 @@ export class ScoreComponent {
         name: firstPlayerWon ? secondPlayerName : firstPlayerName,
         score: firstPlayerWon ? secondPlayerScore : firstPlayerScore
       }
-    }
+    };
+  }
+
+  private pointsHaveBeenMade(): boolean {
+    const {firstPlayerScore, secondPlayerScore} = this.game;
+    return firstPlayerScore + secondPlayerScore > 0;
   }
 }
