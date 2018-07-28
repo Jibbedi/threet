@@ -1,3 +1,5 @@
+@import '../../shared/styles/colors';
+
 :host {
   display: flex;
   width: 100vw;
@@ -66,7 +68,7 @@ tr td {
   padding: 2px 4px;
   text-align: center;
   background: white;
-  color: #3a4a46;
+  color: $color-tr-dark-green;
   border-radius: 2px;
 }
 
@@ -96,11 +98,11 @@ tr td {
 }
 
 .favorite {
-  color: #00b894;
+  color: $color-tr-green;
 }
 
 .bogey {
-  color: #d63031;
+  color: $color-tr-red;
 }
 
 .most-matches {

@@ -15,49 +15,31 @@ export class ScoreComponent {
 
   activePlayer: string;
   initialActivePlayer: string;
+  swappedPlayers: boolean = false;
 
   tournamentId: string;
 
   finishButtonMaximized: boolean = true;
 
   @HostListener('document:keydown', ['$event'])
-  handleKeydown($event: KeyboardEvent) {
+  handleKeyDown($event: KeyboardEvent) {
 
     if (!this.activePlayer) {
       return;
     }
 
+    const firstPlayer: number = !this.swappedPlayers ? 1 : 2;
+    const secondPlayer: number = !this.swappedPlayers ? 2 : 1;
+
     if ($event.code === 'ArrowUp') {
-      this.scoreUpSecondPlayer();
+      this.scoreUpPlayer(secondPlayer);
     } else if ($event.code === 'ArrowDown') {
-      this.scoreDownSecondPlayer();
+      this.scoreDownPlayer(2);
     } else if ($event.code === 'KeyW') {
-      this.scoreUpFirstPlayer();
+      this.scoreUpPlayer(firstPlayer);
     } else if ($event.code === 'KeyS') {
-      this.scoreDownFirstPlayer();
+      this.scoreDownPlayer(firstPlayer)
     }
-  }
-
-  scoreUpFirstPlayer() {
-    if (this.isGameFinished()) return;
-    this.game.firstPlayerScore = this.game.firstPlayerScore + 1;
-    !this.isGameFinished() && this.calculateActivePlayer();
-  }
-
-  scoreDownFirstPlayer() {
-    this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0);
-    !this.isGameFinished() && this.calculateActivePlayer();
-  }
-
-  scoreUpSecondPlayer() {
-    if (this.isGameFinished()) return;
-    this.game.secondPlayerScore = this.game.secondPlayerScore + 1;
-    !this.isGameFinished() && this.calculateActivePlayer();
-  }
-
-  scoreDownSecondPlayer() {
-    this.game.secondPlayerScore = Math.max(this.game.secondPlayerScore - 1, 0);
-    !this.isGameFinished() && this.calculateActivePlayer();
   }
 
   constructor(private route: ActivatedRoute, private db: AngularFirestore, private router: Router) {
@@ -78,6 +60,24 @@ export class ScoreComponent {
 
   isActivePlayer(playerId: string) {
     return playerId === this.activePlayer;
+  }
+
+  scoreUpPlayer(player: number) {
+    if (this.isGameFinished()) return;
+
+    player === 1
+      ? this.game.firstPlayerScore += 1
+      : this.game.secondPlayerScore += 1;
+
+    !this.isGameFinished() && this.calculateActivePlayer();
+  }
+
+  scoreDownPlayer(player: number) {
+    player === 1
+      ? this.game.firstPlayerScore = Math.max(this.game.firstPlayerScore - 1, 0)
+      : this.game.secondPlayerScore = Math.max(this.game.secondPlayerScore - 1, 0);
+
+    !this.isGameFinished() && this.calculateActivePlayer();
   }
 
   calculateActivePlayer() {

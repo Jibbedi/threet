@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import './app/shared/styles/colors.scss';
+
 body, html {
   margin: 0;
   padding: 0;
@@ -24,4 +26,14 @@ body, html {
 
 .clickable {
   cursor: pointer;
+}
+
+// helpers
+
+.tr-green {
+  color: $color-tr-green;
+}
+
+.tr-red {
+  color: $color-tr-red;
 }
