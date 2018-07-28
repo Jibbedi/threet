@@ -48,7 +48,7 @@ export class CreateTournamentComponent {
         mode: this.type,
         done: false,
         shouldEffectElo: false,
-        shouldEffectRank: false
+        shouldEffectRank: true
       },
       stage: STAGE
     }).subscribe(tournamentId => {
