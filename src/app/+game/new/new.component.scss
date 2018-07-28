@@ -1,4 +1,4 @@
-@import '../../shared/styles/helpers';
+@import '../../shared/styles/colors';
 
 :host {
   display: flex;
@@ -88,7 +88,7 @@ th {
     align-items: center;
     justify-content: center;
     background: white;
-    color: #3a4a46;
+    color: $color-tr-dark-green;
     padding: 2px 4px;
     border-radius: 2px;
     flex: 1;
@@ -116,10 +116,10 @@ th {
 }
 
 .up {
-  color: #00b894;
+  color: $color-tr-green;
 }
 
 .down {
-  color: #d63031;
+  color: $color-tr-red;
 }
 

@@ -1,3 +1,5 @@
+@import '../../shared/styles/colors';
+
 :host {
   width: 100vw;
   height: 100vh;
@@ -5,8 +7,9 @@
 }
 
 .new-game-button {
-  padding: 0 20px;
   position: absolute;
+  margin-left: 10px;
+  padding-right: 10px;
 }
 
 h3 {
@@ -74,9 +77,15 @@ h3 {
         padding: 2px 4px;
         text-align: center;
         background: white;
-        color: #3a4a46;
+        color: $color-tr-dark-green;
         border-radius: 2px;
         font-size: 0.7em;
+
+        &.name {
+          &:hover {
+            color: lighten($color-tr-dark-green, 20%);
+          }
+        }
 
         &.rank {
           &.first {
@@ -91,12 +100,25 @@ h3 {
   }
 }
 
+.name {
+  color: white;
+  &:hover {
+    color: darken(white, 20%);
+  }
+}
+
 .winner-name {
-  color: #00b894;
+  color: $color-tr-green;
+  &:hover {
+    color: lighten($color-tr-green, 20%);
+  }
 }
 
 .loser-name {
-  color: #d63031;
+  color: $color-tr-red;
+  &:hover {
+    color: lighten($color-tr-red, 20%);
+  }
 }
 
 .history {
@@ -115,14 +137,12 @@ h3 {
 }
 
 .history-marker.win {
-  background: #00b894;
+  background: $color-tr-green;
 }
 
 .history-marker.lose {
-  background: #d63031;
+  background: $color-tr-red;
 }
-
-
 
 .streaks-container {
   width: 100vw;
@@ -138,7 +158,6 @@ h3 {
 }
 
 @media only screen and (min-width: 640px) {
-
   .streaks-container {
     position: absolute;
   }
@@ -155,7 +174,6 @@ h3 {
 }
 
 @media only screen and (min-width: 1280px) {
-
   h3 {
     font-size: 1.7em;
   }
@@ -171,7 +189,6 @@ h3 {
       }
     }
   }
-
 
   .recent-games {
     .game-wrapper {

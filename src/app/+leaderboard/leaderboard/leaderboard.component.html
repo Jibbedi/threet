@@ -1,5 +1,5 @@
 <div class="header">
-  <div class="new-game-button" (click)="newGame();">new game</div>
+  <div class="button new-game-button" (click)="newGame();">🏓 New Game</div>
   <h3>Ranking</h3>
 </div>
 
@@ -7,7 +7,7 @@
   <div class="streaks-container">
     <div class="streaks streaks-left">
       <div class="streak-tile">
-        <div class="winner-name">Current longest streak</div>
+        <div class="tr-green">Current longest streak</div>
         <div class="name clickable" [routerLink]="['/user','profile', longestCurrentStreakPlayer?.id]">
           {{longestCurrentStreakPlayer?.name}}
         </div>
@@ -15,7 +15,7 @@
       </div>
 
       <div class="streak-tile">
-        <div class="loser-name">Current longest drought</div>
+        <div class="tr-red">Current longest drought</div>
         <div class="name clickable" [routerLink]="['/user','profile', longestCurrentDroughtPlayer?.id]">
           {{longestCurrentDroughtPlayer?.name}}
         </div>
@@ -27,7 +27,7 @@
 
     <div class="streaks streaks-right">
       <div class="streak-tile">
-        <div class="winner-name">Longest streak ever</div>
+        <div class="tr-green">Longest streak ever</div>
         <div class="name clickable" [routerLink]="['/user','profile', longestSteakPlayer?.id]">
           {{longestSteakPlayer?.name}}
         </div>
@@ -35,7 +35,7 @@
       </div>
 
       <div class="streak-tile">
-        <div class="loser-name">Longest drought ever</div>
+        <div class="tr-red">Longest drought ever</div>
         <div class="name clickable" [routerLink]="['/user','profile', longestDroughtPlayer?.id]">
           {{longestDroughtPlayer?.name}}
         </div>
@@ -64,7 +64,7 @@
               [ngClass]="{'first': first}">
             {{index + 1}}
           </td>
-          <td class="clickable" [routerLink]="['/user','profile', player.id]">{{player.name}}</td>
+          <td class="name clickable" [routerLink]="['/user','profile', player.id]">{{player.name}}</td>
           <td>
             <ng-container *ngIf="getTotalGames(player) as totalGames; else noData">
               {{totalGames}}
