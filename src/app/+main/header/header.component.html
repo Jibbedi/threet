@@ -1,1 +1,17 @@
-<button (click)="signOut()">sign out</button>
+<div class="logo">
+  🏓 Team Rank
+</div>
+
+
+<nav>
+  <div class="button" routerLink="/tournament/create">New tournament</div>
+  <div class="button" routerLink="/game/new">New game</div>
+  <div class="button" routerLink="/leaderboard">All time ranking</div>
+</nav>
+
+<div class="profile">
+  <div *ngIf="auth.user" class="button" [routerLink]="['/user','profile', auth.user?.id]">{{auth.user?.name}}'s
+    profile
+  </div>
+  <div class="button" (click)="signOut()">Sign out</div>
+</div>
