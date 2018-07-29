@@ -1,8 +1,8 @@
 import {Component, HostListener} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Game} from '../../models/Game';
-import {STAGE, WINNING_GAME_POINTS} from '../../constants/config';
+import {WINNING_GAME_POINTS} from '../../constants/config';
+import {GameService} from '../../services/game.service';
 
 @Component({
   selector: 'app-score',
@@ -38,18 +38,18 @@ export class ScoreComponent {
     } else if ($event.code === 'KeyW') {
       this.scoreUpPlayer(firstPlayer);
     } else if ($event.code === 'KeyS') {
-      this.scoreDownPlayer(firstPlayer)
+      this.scoreDownPlayer(firstPlayer);
     }
   }
 
-  constructor(private route: ActivatedRoute, private db: AngularFirestore, private router: Router) {
+  constructor(private route: ActivatedRoute, private gameService: GameService, private router: Router) {
     this.route.queryParams.subscribe(queryParams => {
       this.tournamentId = queryParams.tournamentId;
     });
 
     this.route.params.subscribe(params => {
       const {gameId} = params;
-      this.db.collection<Game[]>(STAGE + 'games').doc<Game>(gameId).valueChanges().subscribe(game => {
+      this.gameService.getGameForId(gameId).then(game => {
         game.gameId = gameId;
         this.game = game;
         this.game.firstPlayerScore = this.game.firstPlayerScore || 0;
@@ -134,13 +134,14 @@ export class ScoreComponent {
     }
     this.game.timestamp = Date.now();
     this.game.done = true;
-    this.db.collection<Game[]>(STAGE + 'games').doc<Game>(this.game.gameId).set(this.game);
 
-    if (!this.tournamentId) {
-      this.router.navigateByUrl('leaderboard');
-    } else {
-      this.router.navigate(['tournament', 'overview', this.tournamentId]);
-    }
+    this.gameService.saveGame(this.game).then(_ => {
+      if (!this.tournamentId) {
+        this.router.navigateByUrl('leaderboard');
+      } else {
+        this.router.navigate(['tournament', 'overview', this.tournamentId]);
+      }
+    });
 
   }
 

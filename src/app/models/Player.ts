@@ -13,4 +13,6 @@ export interface Player {
   totalScoreDiff: number;
   history: boolean[];
   tournamentWins: number;
+  teamId: string;
+  userId: string;
 }

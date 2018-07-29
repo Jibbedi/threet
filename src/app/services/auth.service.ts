@@ -47,7 +47,7 @@ export class AuthService {
     this.auth.auth.signOut();
   }
 
-  private getPlayerDataForAuthState(): Observable<Player> {
+  getPlayerDataForAuthState(): Observable<Player> {
 
     if (this.user) {
       return of(this.user);

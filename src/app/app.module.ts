@@ -22,6 +22,7 @@ import {LandingComponent} from './+main/landing/landing.component';
 import {HeaderComponent} from './+main/header/header.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthService} from './services/auth.service';
+import {GameService} from './services/game.service';
 
 
 const routes: Routes = [
@@ -113,7 +114,7 @@ const routes: Routes = [
     AngularFirestoreModule,
     AngularFireFunctionsModule
   ],
-  providers: [PlayerService, AuthService, AuthGuard],
+  providers: [PlayerService, GameService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
