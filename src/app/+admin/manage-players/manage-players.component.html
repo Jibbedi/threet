@@ -1,0 +1,36 @@
+<table>
+  <thead>
+  <th>Name</th>
+  <th>E-Mail</th>
+  <th>Role</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let player of playerService.players">
+    <td>
+      {{player.name}}
+    </td>
+    <td>
+      {{player.email}}
+    </td>
+    <td>
+      <select [ngModel]="player.role" (ngModelChange)="handleRoleChange(player, $event)">
+        <option value="admin">Admin</option>
+        <option value="manager">Manager</option>
+        <option value="viewer">Viewer</option>
+      </select>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<form #form="ngForm" (submit)="submitForm(form.value)">
+  <div>Create Player</div>
+  <input required ngModel type="text" placeholder="Player name" name="name">
+  <div class="credentials" ngModelGroup="credentials">
+    <input required type="email" placeholder="email" ngModel name="email">
+    <input required type="password" placeholder="password" ngModel name="password">
+  </div>
+  <button type="submit" class="button">Create User</button>
+</form>
+

@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {Player} from '../models/Player';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {STAGE} from '../constants/config';
+import {AngularFireFunctions} from 'angularfire2/functions';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,10 @@ export class AuthService {
   userDidSignIn = false;
 
 
-  constructor(private auth: AngularFireAuth, private db: AngularFirestore, private router: Router) {
+  constructor(private auth: AngularFireAuth,
+              private db: AngularFirestore,
+              private functions: AngularFireFunctions,
+              private router: Router) {
     this.getPlayerDataForAuthState()
       .subscribe((player: Player) => {
         if (!player) {
@@ -23,9 +27,12 @@ export class AuthService {
         } else if (this.userDidSignIn) {
           this.router.navigate(['/user', 'profile', player.id]);
         }
-
         this.user = player;
       });
+  }
+
+  changeRoleOfUser(userId: string, role) {
+    this.db.collection<Player>(STAGE + 'players').doc(userId).update({role});
   }
 
   isUserLoggedIn(): Observable<boolean> {
@@ -38,9 +45,9 @@ export class AuthService {
       .catch(error => Promise.reject(error.message));
   }
 
-  signUp(credentials: Credentials) {
-    return this.auth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password)
-      .catch(error => Promise.reject(error.message));
+  signUp(name: string, credentials: Credentials): Observable<any> {
+    const callable = this.functions.httpsCallable('createUser');
+    return callable({name, email: credentials.email, password: credentials.password, teamId: this.user.teamId, stage: STAGE});
   }
 
   signOut() {
@@ -61,11 +68,10 @@ export class AuthService {
             return of(null);
           }
 
-          return this.db.collection<Player>(STAGE + 'players', ref => ref.where('userId', '==', authState.uid)).valueChanges()
-            .pipe(
-              take(1),
-              map(players => players[0] || null)
-            );
+          return this.db.collection<Player>(STAGE + 'players').doc(authState.uid)
+            .ref
+            .get()
+            .then(snapshot => snapshot.data());
 
         })
       );

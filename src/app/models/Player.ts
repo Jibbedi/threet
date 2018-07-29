@@ -14,5 +14,6 @@ export interface Player {
   history: boolean[];
   tournamentWins: number;
   teamId: string;
-  userId: string;
+  role: 'admin' | 'creator' | 'viewer';
+  email: string;
 }

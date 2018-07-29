@@ -7,6 +7,7 @@
   <div class="button" routerLink="/tournament/create">New tournament</div>
   <div class="button" routerLink="/game/new">New game</div>
   <div class="button" routerLink="/leaderboard">All time ranking</div>
+  <div *ngIf="auth.user?.role === 'admin'" class="button" routerLink="/admin/players">Manage players</div>
 </nav>
 
 <div class="profile">

@@ -23,6 +23,7 @@ import {HeaderComponent} from './+main/header/header.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthService} from './services/auth.service';
 import {GameService} from './services/game.service';
+import {ManagePlayersComponent} from './+admin/manage-players/manage-players.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'admin/players',
+    component: ManagePlayersComponent
   },
   {
     path: 'tournament',
@@ -90,6 +95,7 @@ const routes: Routes = [
     ScoreComponent,
     CreateTournamentComponent,
     ProfileComponent,
+    ManagePlayersComponent,
     HeaderComponent,
     AdminComponent,
     LandingComponent,
