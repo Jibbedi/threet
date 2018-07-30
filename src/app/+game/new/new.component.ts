@@ -1,14 +1,12 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
 import {Player} from '../../models/Player';
-import {Game} from '../../models/Game';
 import {Sounds} from '../../../assets/sounds';
 import {AngularFireFunctions} from 'angularfire2/functions';
-import {STAGE} from '../../constants/config';
 import {PreMatchInfo} from '../../models/PreMatchInfo';
 import {PlayerService} from '../../services/player.service';
 import {filter} from 'rxjs/operators';
+import {GameService} from '../../services/game.service';
 
 @Component({
   selector: 'app-new',
@@ -25,7 +23,7 @@ export class NewComponent {
   firstPlayerPreMatchInfo: PreMatchInfo;
   secondPlayerPreMatchInfo: PreMatchInfo;
 
-  constructor(private db: AngularFirestore,
+  constructor(private gameService: GameService,
               private functions: AngularFireFunctions,
               public playerService: PlayerService,
               private router: Router) {
@@ -123,7 +121,7 @@ export class NewComponent {
       timestamp: new Date().getTime()
     };
 
-    this.db.collection<Game>(STAGE + 'games').add(game as Game).then(docRef => {
+    this.gameService.createGame(game).subscribe(docRef => {
       this.router.navigateByUrl('game/score/' + docRef.id);
     });
   }

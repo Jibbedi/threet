@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Observable} from 'rxjs';
 import {Game} from '../../models/Game';
 import {Player} from '../../models/Player';
 import timeago from 'timeago.js';
-import {STAGE} from '../../constants/config';
 import {Router} from '@angular/router';
 import {PlayerService} from '../../services/player.service';
 import {filter} from 'rxjs/operators';
+import {GameService} from '../../services/game.service';
 
 @Component({
   selector: 'app-leaderboard',
@@ -16,7 +15,7 @@ import {filter} from 'rxjs/operators';
 })
 export class LeaderboardComponent implements OnInit {
 
-  games$: Observable<Game[]>;
+  games : Game[];
 
   ranking: Player[] = [];
 
@@ -25,8 +24,13 @@ export class LeaderboardComponent implements OnInit {
   longestCurrentStreakPlayer: Player;
   longestCurrentDroughtPlayer: Player;
 
-  constructor(private db: AngularFirestore, private playerService: PlayerService, private router: Router) {
-    this.games$ = this.db.collection<Game>(STAGE + 'games', ref => ref.where('done', '==', true).orderBy('timestamp', 'desc').limit(20)).valueChanges();
+  constructor(private db: AngularFirestore, private playerService: PlayerService, private gameService: GameService, private router: Router) {
+
+    this.gameService.loaded
+      .pipe(filter(loaded => loaded))
+      .subscribe(_ => {
+        this.games = this.gameService.recentGames;
+      });
 
 
     this.playerService.loaded

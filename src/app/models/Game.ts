@@ -13,4 +13,5 @@ export interface Game {
   shouldEffectElo: boolean;
   tournamentId: string;
   startTimestamp: number;
+  teamId: string;
 }

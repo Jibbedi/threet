@@ -1,0 +1,9 @@
+<h1>Team Rank <br> Login</h1>
+
+<form #form="ngForm" (submit)="submitForm(form.value)">
+  <input required type="email" placeholder="email" ngModel name="email">
+  <input required type="password" placeholder="password" ngModel name="password">
+  <button type="submit" class="button">Log In</button>
+</form>
+
+<div *ngIf="error">{{error}}</div>

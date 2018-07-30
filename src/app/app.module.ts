@@ -17,17 +17,27 @@ import {TournamentOverviewComponent} from './+tournament/tournament-overview/tou
 import {ProfileComponent} from './+user/profile/profile.component';
 import {FormsModule} from '@angular/forms';
 import {LeagueViewComponent} from './+tournament/league-view/league-view.component';
+import {AngularFireAuthModule} from 'angularfire2/auth';
+import {LandingComponent} from './+main/landing/landing.component';
+import {HeaderComponent} from './+main/header/header.component';
+import {AuthGuard} from './guards/auth.guard';
+import {AuthService} from './services/auth.service';
+import {GameService} from './services/game.service';
+import {ManagePlayersComponent} from './+admin/manage-players/manage-players.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/game/new',
-    pathMatch: 'full'
+    component: LandingComponent
   },
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'admin/players',
+    component: ManagePlayersComponent
   },
   {
     path: 'tournament',
@@ -39,8 +49,9 @@ const routes: Routes = [
       {
         path: 'overview/:tournamentId',
         component: TournamentOverviewComponent
-      }
-    ]
+      },
+    ],
+    canActivate: [AuthGuard]
   },
   {
     path: 'user',
@@ -49,7 +60,8 @@ const routes: Routes = [
         path: 'profile/:playerId',
         component: ProfileComponent
       }
-    ]
+    ],
+    canActivate: [AuthGuard]
   },
   {
     path: 'game',
@@ -62,12 +74,18 @@ const routes: Routes = [
         path: 'score/:gameId',
         component: ScoreComponent
       }
-    ]
+    ],
+    canActivate: [AuthGuard]
   },
   {
     path: 'leaderboard',
-    component: LeaderboardComponent
-  }
+    component: LeaderboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    redirectTo: '/'
+  },
 ];
 
 @NgModule({
@@ -77,7 +95,10 @@ const routes: Routes = [
     ScoreComponent,
     CreateTournamentComponent,
     ProfileComponent,
+    ManagePlayersComponent,
+    HeaderComponent,
     AdminComponent,
+    LandingComponent,
     LeaderboardComponent,
     KnockoutPhaseTreeComponent,
     LeagueViewComponent,
@@ -95,10 +116,11 @@ const routes: Routes = [
       storageBucket: 'threet-c189b.appspot.com',
       messagingSenderId: '1095738527709'
     }),
+    AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireFunctionsModule
   ],
-  providers: [PlayerService],
+  providers: [PlayerService, GameService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

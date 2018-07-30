@@ -1,12 +1,10 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
 import {Player} from '../../models/Player';
 import {PlayerService} from '../../services/player.service';
 import {ActivatedRoute} from '@angular/router';
 import {filter, map, skip, switchMap, take} from 'rxjs/operators';
 import {Game} from '../../models/Game';
-import {STAGE} from '../../constants/config';
-import {combineLatest} from 'rxjs';
+import {GameService} from '../../services/game.service';
 
 
 declare const Chart;
@@ -40,7 +38,7 @@ export class ProfileComponent implements AfterViewInit {
 
   rank: number;
 
-  constructor(private db: AngularFirestore, private playerService: PlayerService, private route: ActivatedRoute) {
+  constructor(private playerService: PlayerService, private gameService: GameService, private route: ActivatedRoute) {
   }
 
   ngAfterViewInit() {
@@ -62,32 +60,31 @@ export class ProfileComponent implements AfterViewInit {
           .sort((a, b) => b.eloRank - a.eloRank)
           .indexOf(this.player) + 1;
 
-        const whereFirstPlayer = this.db.collection<Game>(STAGE + 'games', ref => ref.where('firstPlayerId', '==', playerId)).valueChanges();
-        const whereSecondPlayer = this.db.collection<Game>(STAGE + 'games', ref => ref.where('secondPlayerId', '==', playerId)).valueChanges();
-
-        combineLatest(whereFirstPlayer, whereSecondPlayer).pipe(take(1)).subscribe(games => {
-          this.playerGames = [...games[0], ...games[1]]
-            .filter(game => game.done)
-            .sort((a, b) => a.timestamp - b.timestamp);
-
-
-          this.historyWidth = this.playerGames.length * 50;
-
-          setTimeout(() => {
-            this.drawHistoryChart();
-          });
-
-          this.opponentMap = this.createOpponentMap();
-          this.favoriteOpponent = this.opponentMap.sort((a, b) => b.wins - a.wins)[0];
-          this.leastFavoriteOpponent = this.opponentMap.sort((a, b) => b.loses - a.loses)[0];
-          this.mostPlayedAgainst = this.opponentMap.sort((a, b) => (b.loses + b.wins) - (a.loses + a.wins))[0];
-
-        });
 
         setTimeout(() => {
-          this.drawWinLoseChart();
-          this.drawScoreChart();
+          this.gameService.getAllGamesForPlayer(this.player)
+
+            .subscribe(games => {
+              this.playerGames = games;
+              this.historyWidth = this.playerGames.length * 50;
+
+              setTimeout(() => {
+                this.drawHistoryChart();
+              });
+
+              this.opponentMap = this.createOpponentMap();
+              this.favoriteOpponent = this.opponentMap.sort((a, b) => b.wins - a.wins)[0];
+              this.leastFavoriteOpponent = this.opponentMap.sort((a, b) => b.loses - a.loses)[0];
+              this.mostPlayedAgainst = this.opponentMap.sort((a, b) => (b.loses + b.wins) - (a.loses + a.wins))[0];
+
+            });
+
+          setTimeout(() => {
+            this.drawWinLoseChart();
+            this.drawScoreChart();
+          });
         });
+
       }
     );
   }

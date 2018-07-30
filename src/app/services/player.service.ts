@@ -3,6 +3,8 @@ import {Player} from '../models/Player';
 import {STAGE} from '../constants/config';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {BehaviorSubject} from 'rxjs';
+import {AuthService} from './auth.service';
+import {switchMap, take} from 'rxjs/operators';
 
 @Injectable()
 export class PlayerService {
@@ -11,11 +13,17 @@ export class PlayerService {
 
   loaded = new BehaviorSubject(false);
 
-  constructor(private db: AngularFirestore) {
-    this.db.collection<Player>(STAGE + 'players').valueChanges().subscribe(players => {
-      this.players = players;
-      this.loaded.next(true);
-    });
+  constructor(private db: AngularFirestore, private auth: AuthService) {
+
+    this.auth.getPlayerDataForAuthState()
+      .pipe(
+        take(1),
+        switchMap(player => this.db.collection<Player>(STAGE + 'players', ref => ref.where('teamId', '==', player.teamId)).valueChanges())
+      )
+      .subscribe(players => {
+        this.players = players;
+        this.loaded.next(true);
+      });
   }
 
   getRanking(overrideElosForIds?: { [id: string]: number }): Player[] {

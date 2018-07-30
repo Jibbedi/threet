@@ -1,5 +1,6 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
+import {Component} from '@angular/core';
+import {Location} from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,10 @@ import {AngularFirestore} from 'angularfire2/firestore';
 })
 export class AppComponent {
 
-  constructor() {}
+  constructor(private location: Location) {
+  }
+
+  isLandingPage() {
+    return this.location.path() === '';
+  }
 }

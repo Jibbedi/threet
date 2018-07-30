@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  height: 50px;
+  padding: 0 10px;
+  background: #2980b9;
+  font-size: 20px;
+  align-items: center;
+}
+
+.logo {
+  flex: 1;
+}
+
+nav {
+  display: flex;
+}
+
+.button {
+  margin: 0 10px;
+}
+
+.profile {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
