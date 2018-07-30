@@ -61,7 +61,7 @@ export class ProfileComponent implements AfterViewInit {
           .indexOf(this.player) + 1;
 
 
-        this.gameService.getAllGamesForPlayerId(this.player.id)
+        this.gameService.getAllGamesForPlayer(this.player)
           .pipe(take(1))
           .subscribe(games => {
             this.playerGames = games;

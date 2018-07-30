@@ -5,6 +5,7 @@ import {BehaviorSubject, combineLatest} from 'rxjs';
 import {AuthService} from './auth.service';
 import {map, switchMap, take} from 'rxjs/operators';
 import {Game} from '../models/Game';
+import {Player} from '../models/Player';
 
 @Injectable()
 export class GameService {
@@ -31,10 +32,10 @@ export class GameService {
       });
   }
 
-  getAllGamesForPlayerId(id: string) {
+  getAllGamesForPlayer(player: Player) {
     return combineLatest(
-      this.db.collection<Game>(STAGE + 'games', ref => ref.where('firstPlayerId', '==', id).where('done', '==', true)).valueChanges(),
-      this.db.collection<Game>(STAGE + 'games', ref => ref.where('secondPlayerId', '==', id).where('done', '==', true)).valueChanges()
+      this.getGamesForPlayerWhere(player, 'firstPlayerId'),
+      this.getGamesForPlayerWhere(player, 'secondPlayerId'),
     ).pipe(
       map(games => [...games[0], ...games[1]]
         .sort((a, b) => a.timestamp - b.timestamp))
@@ -67,5 +68,9 @@ export class GameService {
     return this.db.collection<Game[]>(STAGE + 'games')
       .doc<Game>(id)
       .ref;
+  }
+
+  private getGamesForPlayerWhere(player: Player, where: string) {
+    return this.db.collection<Game>(STAGE + 'games', ref => ref.where(where, '==', player.id).where('done', '==', true).where('teamId', '==', player.teamId)).valueChanges();
   }
 }
