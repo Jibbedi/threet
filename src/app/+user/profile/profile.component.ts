@@ -61,27 +61,30 @@ export class ProfileComponent implements AfterViewInit {
           .indexOf(this.player) + 1;
 
 
-        this.gameService.getAllGamesForPlayer(this.player)
-          .pipe(take(1))
-          .subscribe(games => {
-            this.playerGames = games;
-            this.historyWidth = this.playerGames.length * 50;
+        setTimeout(() => {
+          this.gameService.getAllGamesForPlayer(this.player)
 
-            setTimeout(() => {
-              this.drawHistoryChart();
+            .subscribe(games => {
+              this.playerGames = games;
+              this.historyWidth = this.playerGames.length * 50;
+
+              setTimeout(() => {
+                this.drawHistoryChart();
+              });
+
+              this.opponentMap = this.createOpponentMap();
+              this.favoriteOpponent = this.opponentMap.sort((a, b) => b.wins - a.wins)[0];
+              this.leastFavoriteOpponent = this.opponentMap.sort((a, b) => b.loses - a.loses)[0];
+              this.mostPlayedAgainst = this.opponentMap.sort((a, b) => (b.loses + b.wins) - (a.loses + a.wins))[0];
+
             });
 
-            this.opponentMap = this.createOpponentMap();
-            this.favoriteOpponent = this.opponentMap.sort((a, b) => b.wins - a.wins)[0];
-            this.leastFavoriteOpponent = this.opponentMap.sort((a, b) => b.loses - a.loses)[0];
-            this.mostPlayedAgainst = this.opponentMap.sort((a, b) => (b.loses + b.wins) - (a.loses + a.wins))[0];
-
+          setTimeout(() => {
+            this.drawWinLoseChart();
+            this.drawScoreChart();
           });
-
-        setTimeout(() => {
-          this.drawWinLoseChart();
-          this.drawScoreChart();
         });
+
       }
     );
   }
