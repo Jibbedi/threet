@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Credentials} from '../../models/Credentials';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
@@ -9,10 +8,17 @@ import {AuthService} from '../../services/auth.service';
 })
 export class HeaderComponent {
 
+  showNavBar = false;
+
   constructor(public auth: AuthService) {
   }
 
   signOut() {
     this.auth.signOut();
   }
+
+  toggleNavBar() {
+    this.showNavBar = !this.showNavBar;
+  }
+
 }

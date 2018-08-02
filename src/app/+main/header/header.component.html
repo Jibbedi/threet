@@ -1,18 +1,18 @@
-<div class="logo">
-  🏓 Team Rank
-</div>
-
-
-<nav>
-  <div class="button" routerLink="/tournament/create">New tournament</div>
-  <div class="button" routerLink="/game/new">New game</div>
-  <div class="button" routerLink="/leaderboard">All time ranking</div>
-  <div *ngIf="auth.user?.role === 'admin'" class="button" routerLink="/admin/players">Manage players</div>
-</nav>
-
-<div class="profile">
-  <div *ngIf="auth.user" class="button" [routerLink]="['/user','profile', auth.user?.id]">{{auth.user?.name}}'s
-    profile
+<div class="header">
+  <div class="clickable" (click)="toggleNavBar()">
+    <span>&#9776;</span>
   </div>
-  <div class="button" (click)="signOut()">Sign out</div>
+  <div class="logo">
+    🏓 Team Rank
+  </div>
+</div>
+<div ngClass="nav-bar-container" (click)="toggleNavBar()">
+  <nav ngClass="nav-bar" [style.display]="showNavBar ? 'flex' : 'none'">
+    <div routerLink="/game/new" class="clickable">new game</div>
+    <div routerLink="/tournament/create" class="clickable">new tournament</div>
+    <div routerLink="/leaderboard" class="clickable">leaderboard</div>
+    <div routerLink="/admin/players" *ngIf="auth.user?.role === 'admin'" class="clickable">Manage players</div>
+    <div [routerLink]="['/user','profile', auth.user?.id]" *ngIf="auth.user" class="clickable">{{auth.user?.name}}'s profile</div>
+    <div class="clickable" (click)="signOut()">Sign out</div>
+  </nav>
 </div>

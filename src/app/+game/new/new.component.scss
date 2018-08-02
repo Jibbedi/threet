@@ -19,7 +19,6 @@ h2 {
 .selection {
   display: flex;
   flex-direction: column;
-  flex: 1;
   overflow: auto;
   align-items: center;
   justify-content: center;
@@ -50,12 +49,12 @@ h2 {
 }
 
 .main-panel {
-  flex: 6;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: calc(100vw / 2);
+  margin: 10px;
 }
 
 table {
@@ -77,6 +76,7 @@ th {
 
 .category-wrapper {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
   margin-bottom: 10px;
@@ -92,7 +92,6 @@ th {
     padding: 2px 4px;
     border-radius: 2px;
     flex: 1;
-    min-width: 150px;
   }
 
   & .category {
@@ -101,9 +100,9 @@ th {
   }
 }
 
-@media only screen and (max-width: 980px) {
+@media only screen and (min-width: 640px) {
   .category-wrapper {
-    flex-direction: column;
+    flex-direction: row;
   }
 }
 

@@ -25,7 +25,6 @@ import {AuthService} from './services/auth.service';
 import {GameService} from './services/game.service';
 import {ManagePlayersComponent} from './+admin/manage-players/manage-players.component';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -102,7 +101,8 @@ const routes: Routes = [
     LeaderboardComponent,
     KnockoutPhaseTreeComponent,
     LeagueViewComponent,
-    TournamentOverviewComponent
+    TournamentOverviewComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
