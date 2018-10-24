@@ -18,7 +18,7 @@ export class PlayerService {
     this.auth.getPlayerDataForAuthState()
       .pipe(
         take(1),
-        switchMap(player => this.db.collection<Player>(STAGE + 'players', ref => ref.where('teamId', '==', player.teamId)).valueChanges())
+        switchMap(player => this.db.collection<Player>(STAGE + 'players', ref => ref.where('teamId', '==', player.teamId).where('archived', '!=', false).valueChanges())
       )
       .subscribe(players => {
         this.players = players;
