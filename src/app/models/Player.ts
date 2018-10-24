@@ -16,4 +16,5 @@ export interface Player {
   teamId: string;
   role: 'admin' | 'creator' | 'viewer';
   email: string;
+  archived: boolean
 }
