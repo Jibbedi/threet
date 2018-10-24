@@ -18,10 +18,10 @@ export class PlayerService {
     this.auth.getPlayerDataForAuthState()
       .pipe(
         take(1),
-        switchMap(player => this.db.collection<Player>(STAGE + 'players', ref => ref.where('teamId', '==', player.teamId).where('archived', '!=', false)).valueChanges())
+        switchMap(player => this.db.collection<Player>(STAGE + 'players', ref => ref.where('teamId', '==', player.teamId)).valueChanges())
       )
       .subscribe(players => {
-        this.players = players;
+        this.players = players.filter(player => !player.archived);
         this.loaded.next(true);
       });
   }
